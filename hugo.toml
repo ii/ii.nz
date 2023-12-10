@@ -1,0 +1,6 @@
+baseURL = 'https://ii.nz/'
+languageCode = 'en-us'
+title = 'ii.nz website'
+theme = ["ii-nz"]
+
+disableHugoGeneratorInject = true

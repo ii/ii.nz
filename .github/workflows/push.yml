@@ -1,0 +1,29 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  push-to-balena-cloud:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: get ssh key
+        env:
+          SSH_KEY_FILE: ${{ secrets.SSH_KEY_FILE }}
+        run: |
+          echo "$SSH_KEY_FILE" | base64 -d > .balena-key
+          chmod -R 0600 .balena-key
+      - name: add git remote
+        run: |
+          git remote add balena balenacloud90@git.balena-cloud.com:balenacloud90/ii-nz.git
+      - name: push
+        env:
+          GIT_SSH_COMMAND: ssh -i .balena-key -o StrictHostKeyChecking=accept-new
+        run: |
+          git push -f balena main:master
+      - name: clean up
+        if: ${{ always() }}
+        run: |
+          rm -rfv .balena-key

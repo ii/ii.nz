@@ -1,0 +1,40 @@
+---
+version: "2"
+services:
+  ii-nz:
+    build:
+      context: .
+      dockerfile: ii-nz.Dockerfile
+    networks:
+      - shared
+    ports:
+      - "8080:8080"
+  cfcfg:
+    image: alpine:3.18
+    user: 0
+    environment:
+      - CF_CREDS
+    command:
+      - sh
+      - -c
+      - |
+        chown -R 65532 /etc/cloudflared/creds
+        rm -rfv /etc/cloudflared/creds/credentials.json
+        echo "$CF_CREDS" > /etc/cloudflared/creds/credentials.json
+        chown -R 65532 /etc/cloudflared/creds
+    volumes:
+      - cf:/etc/cloudflared/creds:z
+    restart: on-failure
+  cloudflared:
+    build:
+      context: .
+      dockerfile: cloudflared.Dockerfile
+    command: tunnel --config /etc/cloudflared/config.yaml run
+    networks:
+      - shared
+    volumes:
+      - cf:/etc/cloudflared:ro,z
+networks:
+  shared: {}
+volumes:
+  cf: {}
