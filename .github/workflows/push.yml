@@ -23,7 +23,7 @@ jobs:
         env:
           GIT_SSH_COMMAND: ssh -i .balena-key -o StrictHostKeyChecking=accept-new
         run: |
-          git push -f balena main:master
+          git push -f balena ${{ github.head_ref }}:master
       - name: clean up
         if: ${{ always() }}
         run: |
