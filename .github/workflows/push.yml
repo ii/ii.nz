@@ -22,8 +22,9 @@ jobs:
       - name: push
         env:
           GIT_SSH_COMMAND: ssh -i .balena-key -o StrictHostKeyChecking=accept-new
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
         run: |
-          git push -f balena ${{ github.head_ref }}:master
+          git push -f balena $BRANCH_NAME:master
       - name: clean up
         if: ${{ always() }}
         run: |
