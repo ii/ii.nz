@@ -1,0 +1,6 @@
+[submodule "themes/harbor"]
+	path = themes/harbor
+	url = https://github.com/matsuyoshi30/harbor
+[submodule "themes/plausible-hugo"]
+	path = themes/plausible-hugo
+	url = https://github.com/divinerites/plausible-hugo

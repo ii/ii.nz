@@ -3,8 +3,7 @@
 *.log
 tmp/
 
-
 *.tar
 public/
 .hugo_build.lock
-/output/
+/resources/_gen
