@@ -13,8 +13,8 @@ $ cloudflared tunnel create ii-nz
 A JSON file will be produced with the credentials to connect the said tunnel.
 
 ```
-find $HOME/.cloudflared/ -maxdepth 1 -type f -name '*.json' \
-  | head -n 1 | xargs cat | base64
+cloudflared tunnel list -o json | jq -r '.[] | select(.name=="ii-nz") | .id' \
+  | head -n 1 | xargs -I{} cat $HOME/.cloudflared/{}.json | base64
 ```
 
 base64 encode the file, and park for later.
