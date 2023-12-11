@@ -20,7 +20,7 @@ services:
       - |
         chown -R 65532 /etc/cloudflared/creds
         rm -rfv /etc/cloudflared/creds/credentials.json
-        echo "$CF_CREDS" > /etc/cloudflared/creds/credentials.json
+        echo "$CF_CREDS" | base64 -d > /etc/cloudflared/creds/credentials.json
         chown -R 65532 /etc/cloudflared/creds
     volumes:
       - cf:/etc/cloudflared/creds:z
