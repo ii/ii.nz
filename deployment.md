@@ -13,10 +13,11 @@ $ cloudflared tunnel create ii-nz
 A JSON file will be produced with the credentials to connect the said tunnel.
 
 ```
-cat ~/.cloudflared/*.json | base64
+find $HOME/.cloudflared/ -maxdepth 1 -type f -name '*.json' \
+  | head -n 1 | xargs cat | base64
 ```
 
-base64 encode them, and park for later.
+base64 encode the file, and park for later.
 
 ### links
 - https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/
@@ -63,7 +64,7 @@ The webserver is currently [go-http-server](https://gitlab.com/BobyMCbobs/go-htt
 
 ### `cfcfg`
 
-an `initContainer` for writting cloudflare creds to a volume for file-based consumption.
+an `initContainer` for writing cloudflare creds to a volume for file-based consumption.
 
 ### `cloudflared`
 
