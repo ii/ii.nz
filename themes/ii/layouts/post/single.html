@@ -1,0 +1,25 @@
+{{ define "main" }}
+<section class="post__entry">
+  <article>
+    <h1 class="post__title">{{ .Title }}</h1>
+    <div class="post__info">
+      <p>By
+        {{ range .Param "author" }}
+        <span class='post__author'>
+          {{ . }}
+        </span>
+        {{ end }}
+        ,
+        <time>{{ .PublishDate.Format "January 2, 2006" }}</time>
+      </p>
+    </div>
+    </div>
+    <div class="post__content">
+      {{ .Content }}
+    </div>
+  </article>
+  <nav class="back-nav">
+  <a href="/post">← back to posts</a>
+  </nav>
+</section>
+{{ end }}

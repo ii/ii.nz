@@ -1,0 +1,38 @@
+{{ define "main" }}
+<section class="post__entry">
+  <article>
+    <h1 class="post__title">{{ .Title }}</h1>
+    <div class="post__info">
+      <p> {{ range .Param "author" }}
+        <span class='post__author'>
+          {{ . }}
+        </span>
+        {{ end }}
+      </p>
+    </div>
+    </div>
+    <div class="post__content">
+      {{ .Content }}
+    </div>
+    <div>
+      <h2>Posts</h2>
+    {{ $posts := where site.RegularPages "Type" "post" }}
+    {{ $teammember := slice .Title }}
+    {{ $theirPosts := where $posts "Params.author" "intersect" $teammember  }}
+    {{ range $theirPosts }}
+      <ul>
+        <li>
+          <a href={{ .Page.RelPermalink }}>
+            {{.Params.title }}
+          </a>
+          <!-- {{ .Page.RelPermalink }} -->
+        </li>
+      </ul>
+    {{ end }}
+    </div>
+  </article>
+  <nav class="back-nav">
+  <a href="/post">← back to posts</a>
+  </nav>
+</section>
+{{ end }}

@@ -1,0 +1,61 @@
+{{ define "main" }}
+<div class='contact center-column'>
+  <h1>{{ .Title }}</h2>
+  <div class="subtitle">
+  {{ .Content }}
+  </div>
+       <form
+         id="contact_form"
+         class='contact-form' >
+          <div class="form-group">
+            <label for="Name">Name</label>
+            <input type="text" name="Name" placeholder="Your full name" required/>
+          </div>
+          <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" name="Email" placeholder="me@company.com" required/>
+          </div>
+          <div class="form-group">
+            <label for="Message">Message</label>
+            <textarea name="Message" placeholder="Your message..." rows="10"></textarea>
+          </div>
+
+          <div class='submit-group'>
+            <button type="submit" id="contact_submit">send</button>
+          </div>
+        </form>
+        <script>
+        const scriptURL='https://script.google.com/macros/s/AKfycbzip-YaZaOmH-_ngKyCHOCsq2MxyfZjIyb18qg9xW4daJktfL3B09agnXLUdvXKfdP4pQ/exec'
+        const contactForm = document.querySelector("#contact_form")
+        const submitButton = document.querySelector("#contact_submit")
+
+       function switchToSuccessMessage(id) {
+        let div = document.createElement('div');
+        let p = document.createElement('p');
+        p.textContent = 'Thank you! We will reach out to you soon.';
+        let a = document.createElement('a');
+        a.classList.add('underlined');
+        a.href = '/';
+        a.textContent = 'return home';
+        div.append(p,a);
+        let elem = document.querySelector(id);
+        elem.replaceWith(div);
+       }
+
+        contactForm.addEventListener('submit', e => {
+          submitButton.disabled = true
+          submitButton.textContent = 'sending request';
+          e.preventDefault()
+          const requestForm = new FormData(contactForm)
+          fetch(scriptURL, { method: 'POST', body: requestForm})
+            .then(response => {
+            switchToSuccessMessage('#contact_form');
+            })
+            .catch(error => {
+            alert('Error!', error.message)
+            submitButton.disabled = false;
+            })
+        });
+    </script>
+</div>
+{{ end }}

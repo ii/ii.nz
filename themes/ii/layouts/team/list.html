@@ -1,0 +1,20 @@
+{{ define "main" }}
+
+<div class="content center-grid">
+  <h1>Our Team</h1>
+  <!-- <h1 class="section-title">{{ .Title }}</h1> -->
+  <ul class="team-list">
+  {{ range where .Pages "Params.active" "eq" "true" }}
+    <li class="team-member">
+      <b class="member-name">{{ .Title }}</b>
+      <figure class="member-profile">
+        <img src={{ .Params.photo }}>
+      </figure>
+      <div class="member-bio">
+      {{ .Content }}
+      </div>
+    </li>
+  {{ end }}
+  </ul>
+</div>
+{{ end }}

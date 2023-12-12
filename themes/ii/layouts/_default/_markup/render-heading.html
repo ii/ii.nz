@@ -1,0 +1,5 @@
+{{ $semLevel := .Level | int | add 1 }}
+<h{{ $semLevel }} id="{{ .Anchor | safeURL }}">
+  {{ .Text | safeHTML }}
+  <a class = 'heading-anchor' href="#{{ .Anchor | safeURL }}">#</a>
+</h{{ $semLevel }}>
