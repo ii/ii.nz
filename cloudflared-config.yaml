@@ -4,8 +4,8 @@ credentials-file: /etc/cloudflared/creds/credentials.json
 metrics: 0.0.0.0:2000
 no-autoupdate: true
 ingress:
-  - hostname: ii.nz
+  - hostname: cftest.ii.nz
     originRequest:
-      originServerName: ii.nz
+      originServerName: cftest.ii.nz
     service: http://ii-nz:8080
   - service: http_status:404
