@@ -9,6 +9,7 @@ services:
       - shared
     ports:
       - "8080:8080"
+    restart: always
   cfcfg:
     image: alpine:3.18
     user: 0
@@ -31,10 +32,12 @@ services:
       context: .
       dockerfile: cloudflared.Dockerfile
     command: tunnel --config /usr/etc/cloudflared/config.yaml run
+    # user: 0
     networks:
       - shared
     volumes:
       - cf:/etc/cloudflared:ro,z
+    restart: always
 networks:
   shared: {}
 volumes:
