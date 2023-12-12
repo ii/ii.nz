@@ -71,3 +71,27 @@ an `initContainer` for writing cloudflare creds to a volume for file-based consu
 the cloudflare daemon for serving tunnels, configured to host ii.nz.
 
 It's config under `ingress[].service` must use the local address for the ii-nz container, being http://ii-nz:8080, based on the container service name.
+
+## Misc
+
+### Create a new record pointing to the tunnel
+
+```sh
+$ cloudflared tunnel route dns ii-nz SOME_SUBDOMAIN.ii.nz
+```
+
+note: to serve with a completely different config, a new tunnel must also be created.
+
+### Setup a local host
+
+(instructions WIP)
+
+```sh
+$ export TUNNEL_NAME=preview-from-${CFT_NAME:-$USER}s-machine-ii-nz
+$ cloudflared tunnel create "$TUNNEL_NAME"
+$ export CF_CREDS="$(cloudflared tunnel list -o json | jq --arg TUNNEL_NAME "$TUNNEL_NAME" -r '.[] | select(.name==$TUNNEL_NAME) | .id' \
+  | head -n 1 | xargs -I{} cat $HOME/.cloudflared/{}.json | base64)"
+$ export TUNNEL_ID="$(cloudflared tunnel list -o json | jq --arg TUNNEL_NAME "$TUNNEL_NAME" -r '.[] | select(.name==$TUNNEL_NAME) | .id')"
+$ cloudflared tunnel route dns "$TUNNEL_NAME" "$TUNNEL_NAME".ii.nz
+$ yq e -i '.tunnel=env(TUNNEL_ID) | .ingress[0].hostname=env(TUNNEL_NAME)+".ii.nz"' cloudflared-config.yaml
+```
