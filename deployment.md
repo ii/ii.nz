@@ -13,11 +13,11 @@ $ cloudflared tunnel create ii-nz
 A JSON file will be produced with the credentials to connect the said tunnel.
 
 ```
-cloudflared tunnel list -o json | jq -r '.[] | select(.name=="ii-nz") | .id' \
+$ cloudflared tunnel list -o json | jq -r '.[] | select(.name=="ii-nz") | .id' \
   | head -n 1 | xargs -I{} cat $HOME/.cloudflared/{}.json | base64
 ```
 
-base64 encode the file, and park for later.
+base64 encode the file, and park them for later.
 
 ### links
 - https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/

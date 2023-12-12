@@ -20,16 +20,17 @@ services:
       - |
         chown -R 65532 /etc/cloudflared/creds
         rm -rfv /etc/cloudflared/creds/credentials.json
+        mkdir -p /etc/cloudflared/creds/
         echo "$CF_CREDS" | base64 -d > /etc/cloudflared/creds/credentials.json
-        chown -R 65532 /etc/cloudflared/creds
+        chown -R 65532 /etc/cloudflared/
     volumes:
-      - cf:/etc/cloudflared/creds:z
+      - cf:/etc/cloudflared:z
     restart: on-failure
   cloudflared:
     build:
       context: .
       dockerfile: cloudflared.Dockerfile
-    command: tunnel --config /etc/cloudflared/config.yaml run
+    command: tunnel --config /usr/etc/cloudflared/config.yaml run
     networks:
       - shared
     volumes:

@@ -1,5 +1,5 @@
 ---
-tunnel: ii-nz
+tunnel: ad02aacc-f4ca-4efb-be33-79018ef10b63
 credentials-file: /etc/cloudflared/creds/credentials.json
 metrics: 0.0.0.0:2000
 no-autoupdate: true
