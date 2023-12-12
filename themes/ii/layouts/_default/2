@@ -1,0 +1,22 @@
+{{ define "main" }}
+
+<div class="content center-column">
+  <h1 class="section-title">{{ .Title }}</h1>
+
+  {{ .Content }}
+  <ul class="post__list">
+  {{ range .Pages }}
+    <li class="post">
+      <a href="{{ .RelPermalink }}" class="post-title">{{ .Title }}</a> //
+      {{ range .Param "author" }}
+      <a class="post-author" href={{(path.Join "/team" (replace (lower .) " " "-"))}}>
+        {{ . }}
+      </a>
+      {{ end }}
+      //
+      <span class='post-date'>{{ .Lastmod.Format ( .Site.Params.dateformat | default "Jan 2, 2006") }}</span>
+    </li>
+  {{ end }}
+  </ul>
+</div>
+{{ end }}

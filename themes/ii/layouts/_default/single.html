@@ -1,0 +1,28 @@
+{{ define "main" }}
+<section class="section">
+  <article>
+          <h1 class="blog__title">{{ .Title }}</h1>
+            <div class="blog__details">
+              </div>
+              <div class="blog__info">
+                <p>By
+                  {{ range .Param "author" }}
+                  <span class='post-author'>
+                  {{ . }}
+                  </span>
+                {{ end }}
+                </p>
+                <p><time>{{ .PublishDate.Format "January 2, 2006" }}</time> |
+                    {{ .ReadingTime }} {{ if eq .ReadingTime 1 }} minute {{ else }} 	                         minutes {{ end }} read
+                 </p>
+              </div>
+              <div class="blog__categories">
+             	Blog categories
+              </div>
+            </div>
+          <div class="content">
+            {{ .Content }}
+          </div>
+  </article>  
+</section>  
+{{ end }}

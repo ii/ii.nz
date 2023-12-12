@@ -1,0 +1,10 @@
+#+title: Apisnoop
+#+started: 2018
+#+status: active
+#+priority: 3
+#+link: https://apisnoop.cncf.io/
+
+APISnoop is a site that tracks the progress of the Kubernetes conformance
+project by analyzing the audit logs from end-to-end test runs, to see how many
+conformant endpoints are hit by conformance tests. Our team used postgres and
+svelte to build APISnoop, and the site is used by the larger Kubernetes community to set priorities for conformance work and reduce the creation of technical debt.

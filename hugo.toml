@@ -1,6 +1,28 @@
-baseURL = 'https://ii.nz/'
+baseURL = 'http://ii.nz/'
 languageCode = 'en-us'
-title = 'ii.nz website'
-theme = ["ii-nz"]
+title = 'ii'
+theme = "ii"
 
-disableHugoGeneratorInject = true
+[taxonomies]
+  author = "authors"
+
+
+[markup]
+[markup.goldmark]
+    [markup.goldmark.renderer]
+    unsafe=true
+
+[markup.highlight]
+anchorLineNos = false
+codeFences = true
+guessSyntax = true
+hl_Lines = ''
+hl_inline = false
+lineAnchors = ''
+lineNoStart = 1
+lineNos = false
+lineNumbersInTable = true
+noClasses = true
+noHl = false
+style = 'friendly'
+tabWidth = 2

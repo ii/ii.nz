@@ -1,0 +1,12 @@
+#+title: Kubernetes Conformance
+#+started: 2018
+#+status: active
+#+priority: 1
+#+link: https://www.cncf.io/training/certification/software-conformance/
+
+We work with the [[https://cncf.io][CNCF]] to help ensure consistent features for Kubernetes across
+vendor offerings and open source implementations. Our work includes tracking
+conformance progress with audit log analysis, gitops bots that verify
+conformance submissions, writing tests to increae conformance coverage, and
+release-informaing bots that help ensure no new Kubernetes endpoints are added without
+tests.

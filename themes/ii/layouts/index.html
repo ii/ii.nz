@@ -1,0 +1,12 @@
+{{ define "main" }}
+<div class="center-column">
+<figure class="splash-image">
+  <img src={{ .Params.Image }}
+       alt="{{ .Params.Image_Alt_Text }}"
+  />
+</figure>
+<div class='hello'>
+{{ .Content }}
+</div>
+</div>
+{{ end }}
