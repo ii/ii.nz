@@ -3,7 +3,7 @@
 <div class="content center-column">
   <h1 class="section-title">{{ .Title }}</h1>
 
-  {{ .Content }}
+  {{ .Content | emojify }}
   <ul class="post-list">
   {{ range .Pages  }}
     <li class="post-list__item">

@@ -3,6 +3,8 @@ languageCode = 'en-us'
 title = 'ii'
 theme = "ii"
 
+enableEmoji = true
+
 [taxonomies]
   author = "authors"
 
