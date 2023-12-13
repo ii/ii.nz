@@ -2,4 +2,4 @@
 #+photo: /assets/ii-fresh.png
 #+active: true
 
-Abby is great!
+Abby is great and an awesome member of the team!
