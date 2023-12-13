@@ -1,0 +1,162 @@
++++
+title = "Experimenting with Migrating from Fedora Workstation to Fedora Silverblue"
+author = ["Caleb Woodbine"]
+date = "2023-05-24"
+categories = ["linux", "os", "desktop", "fedora", "ostree", "oci"]
+draft = false
+summary = "Migrating Fedora from Workstation to Silverblue"
++++
+
+#+begin_quote
+Cross-posted from https://blog.calebwoodbine.com/experimenting-with-migrating-from-fedora-workstation-to-fedora-silverblue/
+#+end_quote
+
+* :newspaper: Introduction
+
+The desktop has always been an important decision point for my digital life.
+Where all my work gets done, my daily flows and the ecosystems I choose to adopt.
+
+Since somewhere around 2019, Fedora has been my desktop distro of choice.
+I ran Fedora Workstation back then and switched to Fedora Silverblue at the end of 2019.
+
+Whilst both are fine OSes; however with Silverblue in particular
+I found that the power of the reliability of an image based OS
+enabled me to focus on things like work instead of system maintenance.
+
+* :rocket: The objective
+
+#+begin_quote
+Migrate or replace an existing Fedora Workstation install to a Fedora Silverblue deployment.
+#+end_quote
+
+Important things are to
+- retain as much basic system config as possible
+- retain accounts and user data
+- make the process simple (considering all things)
+(more things?)
+
+Given it's a highly experimental thing, there will always be some level of expectation that some things will either be lost or not the same.
+
+* :two: A tale of two architectures
+
+The way these two OSes operate and are laid out is fairly different.
+
+[[https://fedoraproject.org/workstation/][Fedora Workstation]]:
+- system file system is read+write
+- dnf used for package updates
+- home folder in ~/home~
+- system package upgrades take place on reboot or manually on a live system
+
+[[https://fedoraproject.org/silverblue/][Fedora Silverblue]]:
+- system file system is read-only
+- the OS is state-managed through [[https://ostreedev.github.io/ostree/introduction/][OSTree]] under the hood
+- packages are managed through [[https://coreos.github.io/rpm-ostree][rpm-ostree]] and it's OSTree integration
+- home folder in ~/var/home~
+- system upgrades take place on reboot (experimental ~apply-live~ available. Read more here: https://coreos.github.io/rpm-ostree/apply-live)
+- file system layout (things of note)
+  - ~/home~ :: soft symlink to ~/var/home~
+  - ~/ostree~ :: for the OSTree repo and deploy
+  - ~/sysroot~ :: the path to the /real/ root filesystem
+  - ~/usr/local~ :: soft symlink to ~/var/usrlocal~ for per-machine programs and stuff
+  - ~/var~ :: all the system state, including ~home~ and ~roothome~
+
+* :computer: A thought-filled hack
+
+Please note that this process is potentially **harmful, irreversible and is a hack**.
+
+[[https://github.com/ublue-os/upgrade-tools][github.com/ublue-os/upgrade-tools]]
+
+Here are some lines taken out of the ~silverblueize.sh~ script.
+Please note that these steps are only to visualise the process
+and if you wish to be daring and migrate in this way to please
+refer to the script in the repo above.
+
+:one:. create an OSTree repo in the root filesystem
+#+begin_src shell
+ostree admin init-fs /
+#+end_src
+
+now you'll find a ~/ostree~ folder in the root filesystem
+
+:two:. add the Fedora remote (kind of like with git)
+#+begin_src shell
+ostree remote add \
+    fedora https://ostree.fedoraproject.org \
+    --set=gpgkeypath="/etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-38-$(uname -m)" \
+    --set=contenturl=mirrorlist=https://ostree.fedoraproject.org/mirrorlist"
+#+end_src
+
+Fedora ships with the public keys for the various versions Fedora's repos.
+Now it's configured to know the Fedora OSTree remote.
+
+:three:. pull the OSTree branch into the repo
+#+begin_src shell
+ostree --repo=/ostree/repo pull "fedora:fedora/38/$(uname -m)/silverblue"
+#+end_src
+
+This one take a while, but will vary depending on internet connection.
+
+:four:. Ensure that the directories exist which are required for an OS deploy
+#+begin_src shell
+ostree admin os-init fedora
+#+end_src
+
+Prepares the folders in the root filesystem for OSTree.
+
+:five:. Make the branch be live on reboot
+#+begin_src shell
+ostree admin deploy --os=fedora --karg-proc-cmdline "fedora:fedora/38/$(uname -m)/silverblue"
+#+end_src
+
+Similar to ~git checkout~, now the version which was pull earlier is now ready to boot.
+
+:six:. Copy across a few important system configs
+#+begin_src shell
+for i in /etc/fstab /etc/default/grub /etc/locale.conf /etc/ostree/remotes.d/fedora.conf; do
+      cp "${i}" "${OSTREE_DEPLOY_ROOT}/${i}"
+done
+#+end_src
+
+may add some more things here later but this seems to make it work
+
+:seven:. Remap the mount home folder to the new expected location
+#+begin_src shell
+sed -i -e 's, /home , /var/home ,g' "${OSTREE_DEPLOY_ROOT}/etc/fstab"
+#+end_src
+
+no place like home!
+
+#+begin_quote
+and... that's pretty much it!
+#+end_quote
+
+After the script and a reboot, you'll be put into the emergency shell.
+Just press enter to continue. Not sure why it appears.
+
+Now you'll be prompted to create a user account. Go ahead with the
+same username as matching in the home folder.
+
+:sparkles: You made it to Silverblue! :sparkles:
+
+* :thinking: Things to consider
+
+- the previous install of Fedora Workstation is still kinda around and may be used in the boot process
+  - issue here: https://github.com/ublue-os/upgrade-tools/issues/7 (UPDATE: yes they are)
+-  reaching out to Fedora maintainers at Red Hat for interest, direction and roadmap considerations
+  - is it on the roadmap to migrate users from Fedora Workstation to Fedora Silverblue or future versions?
+
+There are some uncertainties
+- are there remaining Fedora Workstation files install on disk? (e.g /usr/bin)
+  - UPDATE: yes, those files may also be depended on too
+- why does it prompt for user account creation again?
+- non-standard/non-default partition configs
+
+* :door: That's all folks!
+
+Please reach out if this has helped you or if you have any ideas where to take this process!
+
+Inspired by the work of https://asamalik.fedorapeople.org/fedora-docs-translations/en-US/fedora-silverblue/installation-dual-boot
+
+Shout-out to Jorge Castro ([[https://github.com/castrojo]]) for interest in furthering the idea and providing a space in the ublue community!
+
+check out how the installer deploys Silverblue here https://github.com/rhinstaller/anaconda/blob/master/pyanaconda/modules/payloads/payload/rpm_ostree/installation.py
