@@ -2,7 +2,7 @@
 <div class='contact center-column'>
   <h1>{{ .Title }}</h1>
   <div class="subtitle">
-  {{ .Content }}
+  {{ .Content | emojify }}
   </div>
        <form
          id="contact_form"

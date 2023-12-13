@@ -4,14 +4,14 @@
   <h1 class="section-title">{{ .Title }}</h1>
 
   <div class="intro center-column">
-  {{ .Content }}
+  {{ .Content | emojify }}
   </div>
   <ul class="project-list">
     {{ range sort (where .Pages "Params.status" "eq" "active") "Params.priority" "asc"}}
     <li class="project-item">
       <b class="project-name">{{ .Title }}</b>
       <div class="project-description">
-        {{ .Content }}
+        {{ .Content | emojify }}
         {{ .Params.url }}
       <a class="project-link" href="{{ .Params.externalUrl | safeURL }}">
         Learn more</a>

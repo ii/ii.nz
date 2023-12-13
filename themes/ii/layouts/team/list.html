@@ -11,7 +11,7 @@
         <img src={{ .Params.photo }}>
       </figure>
       <div class="member-bio">
-      {{ .Content }}
+      {{ .Content | emojify }}
       </div>
     </li>
   {{ end }}
