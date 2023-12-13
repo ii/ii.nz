@@ -10,8 +10,11 @@
     {{ range sort (where .Pages "Params.status" "eq" "active") "Params.priority" "asc"}}
     <li class="project-item">
       <b class="project-name">{{ .Title }}</b>
-      <div class="project-description">{{ .Content }}
-      <a class="project-link" href="{{ .Param "link" }}">Learn more</a>
+      <div class="project-description">
+        {{ .Content }}
+        {{ .Params.url }}
+      <a class="project-link" href="{{ .Params.externalUrl | safeURL }}">
+        Learn more</a>
       </div>
     </li>
   {{ end }}
