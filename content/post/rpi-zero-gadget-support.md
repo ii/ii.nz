@@ -2,7 +2,6 @@
 title = "RPi Zero Gadget Support"
 date = 2015-12-06
 author = ["Hippie Hacker"]
-lastmod = "Sun Dec 06 00:09:45 NZDT 2015"
 summary = "For most OTG supported ports, it depends on what you plug into it that decides if the port is in host mode or gadget mode. We just need to get confirmation that the RPi zero port is wired the same way for the port that has it's usb data pins connected (not the one dedicated to power)."
 +++
 

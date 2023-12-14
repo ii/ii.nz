@@ -2,7 +2,6 @@
 title = "Creating an e2e test for Conformance"
 author = ["Stephen Heywood"]
 date = 2021-05-11
-lastmod = 2021-05-13T09:02:00+13:00
 categories = ["kubernetes"]
 draft = false
 summary = "Finding untested stable endpoints and creating an e2e test for conformance."
