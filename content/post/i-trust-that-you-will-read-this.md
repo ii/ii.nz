@@ -5,7 +5,6 @@ date = 1969-05-01
 lastmod = 2022-01-12T16:28:00+13:00
 categories = ["general"]
 draft = false
-weight = 2004
 +++
 
 <figure>

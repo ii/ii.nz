@@ -6,7 +6,6 @@ lastmod = 2021-04-21T15:44:52+12:00
 tags = ["envoy", "oci", "containers", "discoveries"]
 categories = ["discoveries"]
 draft = false
-weight = 2001
 summary = "Share the traffic across many container registries with Envoy"
 +++
 

@@ -5,7 +5,6 @@ date = 2021-08-24
 lastmod = 2021-08-24T16:42:13+12:00
 categories = ["learning"]
 draft = false
-weight = 2001
 summary = "How ii built a pipeline for Kubernetes public artifact traffic"
 +++
 
