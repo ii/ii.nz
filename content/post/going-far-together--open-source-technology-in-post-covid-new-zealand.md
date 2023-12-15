@@ -2,6 +2,7 @@
 title = "Going Far Together: Open-Source Technology In Post-COVID New Zealand"
 author = ["Hippie Hacker"]
 date = 2020-06-29
+lastmod = 2022-01-12T15:27:45+13:00
 draft = false
 +++
 

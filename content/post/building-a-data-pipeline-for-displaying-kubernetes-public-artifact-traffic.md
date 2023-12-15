@@ -2,6 +2,7 @@
 title = "Building a data pipeline for displaying Kubernetes public artifact traffic"
 author = ["Caleb Woodbine"]
 date = 2021-08-24
+lastmod = 2021-08-24T16:42:13+12:00
 categories = ["learning"]
 draft = false
 summary = "How ii built a pipeline for Kubernetes public artifact traffic"

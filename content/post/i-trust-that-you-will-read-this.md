@@ -2,6 +2,7 @@
 title = "I Trust That You Will Read This"
 author = ["Hippie Hacker"]
 date = 1969-05-01
+lastmod = 2022-01-12T16:28:00+13:00
 categories = ["general"]
 draft = false
 +++

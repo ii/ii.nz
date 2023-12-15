@@ -2,6 +2,7 @@
 title = "Flashing hardware with software from the web"
 author = ["Hippie Hacker"]
 date = 2017-01-04
+lastmod = 2017-01-04T15:00:02+13:00
 tags = ["kubernetes", "cloud"]
 categories = ["guides"]
 draft = false

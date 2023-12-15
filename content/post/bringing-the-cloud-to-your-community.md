@@ -2,6 +2,7 @@
 title = "Bringing the cloud to your community"
 author = ["Hippie Hacker"]
 date = 2017-01-04
+lastmod = 2017-01-04T16:00:03+13:00
 tags = ["kubernetes", "cloud"]
 categories = ["guides"]
 draft = false

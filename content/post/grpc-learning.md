@@ -2,6 +2,7 @@
 title = "Learning Update: Introduction to gRPC"
 author = ["Zach Mandeville"]
 date = 2021-03-09
+lastmod = 2021-03-10T15:19:29+13:00
 categories = ["learning"]
 draft = false
 summary = "An update on an ii member's journey on learning gRPC"
