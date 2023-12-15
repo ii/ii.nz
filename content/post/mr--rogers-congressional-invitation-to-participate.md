@@ -2,6 +2,7 @@
 title = "Mr. Rogers Congressional Invitation To Participate"
 author = ["Hippie Hacker"]
 date = 1969-05-01
+lastmod = 2022-01-12T16:00:26+13:00
 categories = ["general"]
 draft = false
 summary = "Video and congressional record of Mr. Roger's invitation to 'neighborhood expressions of care'"

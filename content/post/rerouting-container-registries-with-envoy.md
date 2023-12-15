@@ -2,6 +2,7 @@
 title = "Rerouting Container Registries With Envoy"
 author = ["Caleb Woodbine"]
 date = 2021-04-15
+lastmod = 2021-04-21T15:44:52+12:00
 tags = ["envoy", "oci", "containers", "discoveries"]
 categories = ["discoveries"]
 draft = false

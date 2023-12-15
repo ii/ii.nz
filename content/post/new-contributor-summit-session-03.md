@@ -2,6 +2,7 @@
 title = "New Contributor Summit Session 03"
 author = ["Zach Mandeville"]
 date = 2021-02-05
+lastmod = 2021-02-05T16:00:03+13:00
 tags = ["kubernetes", "ncw", "testing"]
 categories = ["guides"]
 draft = true
