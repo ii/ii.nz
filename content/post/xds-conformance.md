@@ -2,7 +2,6 @@
 title = "xDS Conformance Project"
 date = 2021-12-09
 author = ["Zach Mandeville"]
-lastmod = "Fri Dec 09 00:09:49 NZDT 2021"
 summary =  "A look into the work ii has done on the xdS conformance test framework"
 +++
 

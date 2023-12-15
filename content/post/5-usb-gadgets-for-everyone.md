@@ -2,7 +2,6 @@
 title = "5 Dollar USB Gadgets for Everyone"
 date = 2015-12-06
 author = ["Hippie Hacker"]
-lastmod = "Sun Dec 06 00:10:35 NZDT 2015"
 +++
 
 
