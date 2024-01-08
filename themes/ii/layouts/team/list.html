@@ -7,7 +7,7 @@
   {{ range where .Pages "Params.active" "eq" "true" }}
     <li class="team-member">
       <b class="member-name">{{ .Title }}</b>
-      <figure class="member-profile">
+      <figure class="member-profile circular-image">
         <img src={{ .Params.photo }}>
       </figure>
       <div class="member-bio">

@@ -1,6 +1,6 @@
 :root {
   /* Typography */
-    --base-pt: 18px;
+    --base-pt: 16px;
     --font-weight: 400;
     --serif: serif;
     --sans: 'Noto Sans', sans-serif;
@@ -37,6 +37,7 @@
     --pink_dark: rgb(85,25,144);
     --violet: rgb(75,22,128);
     --teal: teal;
+    --yellow: #7e7e00;
     --teal_dark: rgb(5,62,122);
     --white: #fff;
     --ink: rgb(200,205,211);

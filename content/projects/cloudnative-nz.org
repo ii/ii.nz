@@ -1,7 +1,0 @@
-#+title: Cloudnative NZ
-#+started: 2020
-#+status: active
-#+priority: 2
-#+externalUrl: https://cloudnative.nz/
-
-Cloudnative NZ is a group devoted to  opening up paths in open source careers for people in New Zealand, through educational and networking events, informational websites, and other community work.  We regularly host cloudnative NZ, both physically and digitally, and members of our team are deeply involved in the project.

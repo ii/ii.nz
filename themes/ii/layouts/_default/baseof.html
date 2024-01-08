@@ -2,7 +2,7 @@
 <html>
     {{- partial "head.html" . -}}
     <body>
-        {{- partial "header.html" . -}}
+        {{ partial "header.html" (dict "logo" "../static/assets/nav-logo.png") }}
         <main id="content">
         {{- block "main" . }}{{- end }}
         </main>
