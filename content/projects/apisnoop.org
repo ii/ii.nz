@@ -3,6 +3,8 @@
 #+status: active
 #+priority: 3
 #+externalUrl: https://apisnoop.cncf.io/
+#+type: tech
+#+image: /assets/apisnoop.png
 
 APISnoop is a site that tracks the progress of the Kubernetes conformance
 project by analyzing the audit logs from end-to-end test runs, to see how many

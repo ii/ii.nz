@@ -3,7 +3,8 @@
 #+status: active
 #+priority: 4
 #+externalUrl: https://kubernetes.io/blog/2020/05/27/an-introduction-to-the-k8s-infrastructure-working-group/
-
+#+type: tech
+#+image: /assets/stephen-testing.jpg
 Our team works regularly with the kubernetes infra working group, to help
 distribute the infrastructural load of the Kubernetes project across multiple community providers to help
 ensure the long-term sustainabality of kubernetes development.

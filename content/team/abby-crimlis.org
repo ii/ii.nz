@@ -1,5 +1,5 @@
 #+title: Abby Crimlis
-#+photo: /assets/ii-fresh.png
+#+photo: /assets/ii-logo-new.png
 #+active: true
 
 Abby is great and an awesome member of the team!

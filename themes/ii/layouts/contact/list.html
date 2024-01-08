@@ -4,9 +4,9 @@
   <div class="subtitle">
   {{ .Content | emojify }}
   </div>
+  <div class="flex-row contact-form"> 
        <form
-         id="contact_form"
-         class='contact-form' >
+         id="contact_form">
           <div class="form-group">
             <label for="Name">Name</label>
             <input type="text" name="Name" placeholder="Your full name" required/>
@@ -24,6 +24,47 @@
             <button type="submit" id="contact_submit">send</button>
           </div>
         </form>
+        <div class="contact-col">
+          <div class="logo-section">
+            <img src={{ .Params.image }}/>
+          </div>
+          <div>
+            <ul class="contact-icons">
+              <li>   
+                <a href="https://github.com/ii">
+                  <div id="github" class="icon">
+                      <i class="fab fa-github"></i>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="https://gitlab.com/ii">
+                  <div class="icon">
+                    <i class="fab fa-gitlab"></i>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="mailto:hello@ii.nz">
+                  <div class="icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/company/99165471/" target="_blank" rel="noopener noreferrer">
+                  <div class="icon">
+                    <i class="fab fa-linkedin"></i>
+                  </div>
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+        </div>
+       
+
+  </div>
         <script>
         const scriptURL='https://script.google.com/macros/s/AKfycbzip-YaZaOmH-_ngKyCHOCsq2MxyfZjIyb18qg9xW4daJktfL3B09agnXLUdvXKfdP4pQ/exec'
         const contactForm = document.querySelector("#contact_form")

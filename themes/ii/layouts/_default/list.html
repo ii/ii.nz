@@ -9,13 +9,11 @@
     <li class="post-list__item">
       <a href="{{ .RelPermalink }}" class="post-title">{{ .Title }}</a>
       <div class="post-metadata">
-        <span class="divider">//</span>
       {{ range .Param "author" }}
       <a class="post-author" href={{(path.Join "/team" (replace (lower .) " " "-"))}}>
         {{ . }}
       </a>
       {{ end }}
-        <span class="divider">//</span>
       <span class='post-date'>{{ .Date.Format ( .Site.Params.dateformat | default "Jan 2, 2006") }}</span>
       </div>
     </li>

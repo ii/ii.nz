@@ -1,6 +1,8 @@
 #+title: Ublue
 #+started: 2023
 #+status: pending
+#+type: tech
+#+image: /assets/bootable.jpg
 
 
 This is an experiment with our something or other to do cool stuff

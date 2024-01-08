@@ -1,4 +1,9 @@
 {{ define "main" }}
+<div class="overflow">
+<div id="particles-js"></div>
+<div id="home-banner">
+  <img src={{ .Params.bg_image }} />
+</div>
 <div class="center-column">
 <figure class="splash-image">
   <img src={{ .Params.Image }}
@@ -6,7 +11,15 @@
   />
 </figure>
 <div class='hello'>
-{{ .Content | emojify }}
+  <div class="centered-section">
+    <h3>Contributing to community growth and wellbeing through service and technology.</h3>
+  </div>
+  {{ .Content | emojify }}
+</div>
+
 </div>
 </div>
+
+<script src="js/particles.min.js"></script>
+<script src="js/particles.js"></script>
 {{ end }}

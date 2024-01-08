@@ -1,5 +1,13 @@
 #+title: Our Projects
-
-Our team is involved in many different tech and commnity projects- both in
-Aotearoa New Zealand and larger, global communities. Here are some of the
+#+logo: /assets/ii-logo-new.png
+#+apisnoop: /assets/apisnoop.png
+#+k8s: /assets/k8s.svg
+#+infra: /assets/stephen-testing.jpg
+#+usb: /assets/bootable.jpg
+#+events: /assets/shadowTech1.jpg
+#+resource: /assets/resource.jpg
+#+mentoring: /assets/Expo23-4.jpg
+#+education: /assets/IMG_0162.jpg
+Our team is involved in many different tech and community projects, both in
+Aotearoa New Zealand and global communities. Here are some of the
 projects we are involved in.
