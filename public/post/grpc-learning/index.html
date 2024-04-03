@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>ii.nz</title>
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Yeseva+One&family=Noto+Sans">
+   <link rel="stylesheet" href='/css/normalize.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/variables.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/main.css' type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&display=swap" rel="stylesheet">
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+  </style>
+</head>
+<body>
+        <body onload="checkDarkMode()">
+    <header>
+      <nav class="navbar" role="navigation">
+        <div class="navbar__left">
+          <a href="/" class="nav-logo">
+            <img src="/assets/nav-logo.png" id="navLogo" alt="Logo">
+          </a>
+        </div>
+        <div class="navbar__right" id="navbarRight">
+          <li>   
+            <div class="icon" onclick="toggleIcon()">
+              <i class="fas fa-moon" id="toggleMode"></i>
+            </div>
+          </li>
+          <a href="/team">Team</a>
+          <a href="/projects">Projects</a>
+          <a href="/post">Blog</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+  
+    <script>
+      
+      function checkDarkMode() {
+        var storedMode = localStorage.getItem('darkMode');
+        if (storedMode === 'enabled') {
+          applyDarkMode();
+        }
+      }
+  
+      function toggleIcon() {
+        var iconElement = document.getElementById('toggleMode');
+     
+        
+        if (iconElement.classList.contains('fa-moon')) {
+          applyDarkMode();
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          removeDarkMode();
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      }
+  
+      
+      function applyDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+
+        iconElement.classList.remove('fa-moon');
+        iconElement.classList.add('fa-sun');
+        bg.classList.add('bg-dark');
+        header.classList.add('header-dark');
+        navbarRight.classList.add("navbar__right--dark");
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = 'white';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.add('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.add('modal-dark');
+        }
+        logoImage.src = "\/assets\/dark-mode-logo.png";
+      }
+  
+      
+      function removeDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+        
+        iconElement.classList.remove('fa-sun');
+        iconElement.classList.add('fa-moon');
+        bg.classList.remove('bg-dark');
+        header.classList.remove('header-dark');
+        navbarRight.classList.remove("navbar__right--dark");
+        logoImage.src = "\/assets\/nav-logo.png";
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = '';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.remove('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.remove('modal-dark');
+        }
+
+      }
+    </script>
+  </body>
+  
+        <main id="content">
+<section class="post__entry">
+  <article>
+    <h1 class="post__title">Learning Update: Introduction to gRPC</h1>
+    <div class="post__info">
+      <p>By
+        
+        <span class='post__author'>
+          Zach Mandeville
+        </span>
+        
+        ,
+        <time>March 9, 2021</time>
+      </p>
+    </div>
+    </div>
+    <div class="post__content">
+      
+<h2 id="prelude">
+  Prelude
+  <a class = 'heading-anchor' href="#prelude">#</a>
+</h2>
+<p>As I continue my career in code, I&rsquo;ve come to find the most important part of my
+practice is also the least visible: how I learn. There are beautiful moments
+when I know exactly how to do something and just need to implement it so I&rsquo;ll
+pour myself a cup of coffee, put <a href="https://www.youtube.com/watch?v=wmin5WkOuPw">Firestarter</a> on repeat, and watch my beautiful code
+unfurl down the screen as fast as I can type it. These moments, though, are not
+typical.</p>
+<p>Most of the time, I am discovering a new problem I do not yet know how to solve,
+within a domain or technology I have not yet experienced, and to solve the
+problem i have to first understand it. Here my coding life is a bit quieter and
+boring to watch: I&rsquo;ll pour myself a cup of tea, put Firestarter(lo-fi ambient
+remix) on repeat, and start poring through reference docs and tutorials and
+writing &ldquo;TODO: FIGURE OUT WHAT {X} MEANS&rdquo; in my expanding network of notes.</p>
+<p>This work is crucial for code, but often unseen, happening silently in the space
+between git commits. And so, to celebrate this work and make it more visible,
+we&rsquo;ll be posting periodic learning updates on this blog. These are written as
+honest checkpoints taken mid-understanding, so while they are hopefully
+illuminating, they should not be read as any sort of authoratative guide.</p>
+<p>Sweet as, let&rsquo;s set a checkpoint! Right now, I&rsquo;m learning all about gRPC and
+protocol buffers and am quite excited about everything I&rsquo;ve found.</p>
+
+<h2 id="grpc-what-s-it-mean">
+  gRPC: what&rsquo;s it mean?
+  <a class = 'heading-anchor' href="#grpc-what-s-it-mean">#</a>
+</h2>
+<p>gRPC stands for (google)Remote Procedure Call. It is an evolution of Remote
+Procedure Calls, which is one of the primary models of api design (the other
+being REST). So RPC involves specifying how clients and servers should
+communicate with one another, but using a completely different paradigm than
+REST. One of the most immediate distinctions, for me, is with REST you have
+paths on the server that you make requests to, whereas with RPC it&rsquo;s more like
+methods of a server interface that you can call. This is the &ldquo;remote procedure&rdquo;
+aspect of the design, where on the client&rsquo;s side, the communication feels like
+running functions directly on the server.</p>
+<p>The way gRPC operates, sort of the material of the design, is with protocol
+buffers. And so to learn gRPC you want to have a good understanding of protocol
+buffers (or protobuf) first.</p>
+
+<h2 id="protocol-buffers-what-do-they-mean">
+  Protocol Buffers: What do they mean?
+  <a class = 'heading-anchor' href="#protocol-buffers-what-do-they-mean">#</a>
+</h2>
+<p>Protocol Buffers are another creation of Google, and are a way to define and
+serialize data. They tackle the same problem as XML or JSON, but in a much
+different way.</p>
+<p>Protocol buffers work by defining a fully typed contract for your API in a
+.proto file, which is then used to generate source code and compile your data
+into streamable bytes. So the data being passed along is binary instead of
+text-based, but the specification of this data is extremely readable, and
+can easily generate introspective tools and documentation.</p>
+<p>Proto buffers also feel distinct in that they were designed with modern
+technology and modern paradigms. So they work with HTTP/2 and work extremely
+well for micro-services architectures utilizing streams of data. This HTTP/2
+requirement also means, though, that they cannot be consumed direclty by a web
+browser.</p>
+
+<h2 id="well-known-advantages-of-grpc-and-protobuf">
+  Well-Known Advantages of gRPC and protobuf
+  <a class = 'heading-anchor' href="#well-known-advantages-of-grpc-and-protobuf">#</a>
+</h2>
+<p>Many of the advantages of gRPC are articulated well on the grpc.io homepage and
+other blogs and resources. I do not want to reiterate the same points, and will
+have links to resources I find useful at the bottom of this post. In short,
+gRPC:</p>
+<ul>
+<li>saves network bandwidth</li>
+<li>provides faster and more efficient communication</li>
+<li>can be used by any language</li>
+<li>offers client-streaming, server-streaming, and bidirectional streaming services</li>
+<li>allows for easy evolution and iteration of your api, while keeping backward compatability.</li>
+<li>has an api contract that is easy to write and understand.</li>
+</ul>
+
+<h2 id="my-favourite-things-so-far-about-grpc">
+  My favourite things so far about gRPC
+  <a class = 'heading-anchor' href="#my-favourite-things-so-far-about-grpc">#</a>
+</h2>
+<p>Since I am just starting to explore gRPC, I cannot speak well to the system-wide
+advantages of it and how I find it works in production. There are immediate
+ergonomic and conceptual advantages to it though that I find quite exciting.</p>
+
+<h3 id="writing-and-reading-api-s">
+  Writing and Reading API&rsquo;s
+  <a class = 'heading-anchor' href="#writing-and-reading-api-s">#</a>
+</h3>
+<p>For one, the type definitions makes writing your api, and understanding others,
+quite simple. You can read a `.proto` file as if it were documentation (and
+still generate documentation from it). For example, a service that takes a
+subject and returns a poem would look like this:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>syntax = &#39;proto3&#39;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>message Subject {
+</span></span><span style="display:flex;"><span> string name = 1;
+</span></span><span style="display:flex;"><span> string mood = 2;
+</span></span><span style="display:flex;"><span> repeated string keywords = 3;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>message Poem {
+</span></span><span style="display:flex;"><span>  string title = 1;
+</span></span><span style="display:flex;"><span>  string body = 2;
+</span></span><span style="display:flex;"><span>  int32 edition = 3;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>message PoemGeneratorRequest {
+</span></span><span style="display:flex;"><span>  Subject subject = 1;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>message PoemGeneratorResponse {
+</span></span><span style="display:flex;"><span>  Poem poem = 1;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>service PoemService {
+</span></span><span style="display:flex;"><span>  rpc PoemGenerator(PoemGeneratorRequest) returns (PoemGeneratorResponse) {};
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>I found that, with no knowledge of the syntax of protocol buffers, I could
+understand specs like this immediately. Much of the proto&rsquo;s syntax is
+understanble through context clues. You define some messages that are made up of
+fields with specific types, and then define a services for passing these
+messages. With protobuf, you work from foundational types that then get
+increasingly complex while maintaining consistent syntax. This is possible in a
+REST API too through discipline and convention, but here that discipline is
+baked into the structure itself.</p>
+<p>Also, evolving an API is relatively simple. If I wanted to introduce a new field
+in my poem subjects, it would look like so:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>message Subject {
+</span></span><span style="display:flex;"><span> string name = 1;
+</span></span><span style="display:flex;"><span> string mood = 2;
+</span></span><span style="display:flex;"><span> repeated string keywords = 3;
+</span></span><span style="display:flex;"><span> string season = 4;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Each field has a default value, which is used if no other value is provided. So
+services set up for the older api would not pass along the <code>season</code> field, and
+it&rsquo;d be interpreted as an empty string. Similarly, if we send messages from the
+new api to an old service, it will simply drop any field it doesn&rsquo;t understand.
+Deprecating fields requires a bit more work, but is equally straightforward. So
+while you will need to ensure your clients account for default values, gRPC
+makes it simple to evolve your api without breaking changes.</p>
+
+<h3 id="code-generation-and-tool-integration">
+  Code generation and tool integration
+  <a class = 'heading-anchor' href="#code-generation-and-tool-integration">#</a>
+</h3>
+<p>One awesome part of protobuf and gRPC is its code generation. After you&rsquo;ve
+defined your API, you can use the program <a href="https://github.com/protocolbuffers/protobuf">protoc</a> to generate code into several
+languages. This means much of the logic for my server and client is taken care
+of for me, and I could focus on the business logic.</p>
+<p>protoc outputs to several different languages, but the one I&rsquo;ve been working
+with is Go. Go also originated in Google, and you can feel the shared principles
+and purpose through how well integrated these three services are. The biggest
+productivity boost for me was the LSP integration. I would define a new service,
+generate the go code, switch over to my server code and as I started to type the
+service&rsquo;s name, my editor would immediately start showing me the methods
+available to this service and their signatures. It is like having a quiet, eager
+assistant handing you all your tools as you need them. It also meant that I was
+immediately working on my code at this strategic higher-level. I was concerned
+with the structure and flow of data as so much of the implementation code was
+generated for me.</p>
+
+<h3 id="reflection-and-introspection">
+  Reflection and Introspection
+  <a class = 'heading-anchor' href="#reflection-and-introspection">#</a>
+</h3>
+<p>Lastly, a quality of gRPC that makes it real exciting to learn is in the ease of
+its introspection. The typed nature of protobuf allows for easy, consistent
+integration with a range of tools beyond your own services. I saw that
+immediately with the LSP integration and emacs, but was truly chuffed when I
+discovered the <a href="https://github.com/ktr0731/evans">Evans CLI</a>. If you have reflection enabled on your server, which
+is straightforward to do, then you can immediately start communicating with it
+using Evans. Evans reminded me a bit of the postgres client `psql`, which is one
+of my favourite tools. With both, use a simple set of commands to investigate
+and richly describe the service you&rsquo;re building in a repl environment. It turns
+the development of your services into this dynamic, tangible experience that
+rewards curiosity.</p>
+<p>I know I have a lot to learn about gRPC, but I am immediately pleased, and
+grateful, that the framework has so many features that makes the learning
+experience rewarding and fun.</p>
+
+<h2 id="resources">
+  Resources
+  <a class = 'heading-anchor' href="#resources">#</a>
+</h2>
+<p>I&rsquo;ve found the following online resources useful for getting into the why&rsquo;s and
+how&rsquo;s of gRPC and protobuf:</p>
+<ul>
+<li><a href="https://grpc.io/docs/what-is-grpc/introduction/">grpc.io&rsquo;s official docs</a> are quite good and a great introduction.</li>
+<li><a href="https://developers.google.com/protocol-buffers/docs/overview">The Developer Docs for Protocol Buffers</a> is similarly good.</li>
+<li><a href="https://www.youtube.com/watch?v=RoXT%5FRkg8LA">Alan Shreve&rsquo;s Talk on gRPC</a> is fun and engaging, and he offers a good
+high-level look at the framework, its historical context, and its benefits.</li>
+<li><a href="https://www.udemy.com/course/grpc-golang/">Stephan Maarek&rsquo;s gRPC class on Udemy</a> is in-depth, patient, and hands-on. It is
+a good balance of theory and implementation, with enough footholds for you to
+go on and learn more.</li>
+<li><a href="https://www.youtube.com/watch?v=RVZX4CwKhGE&amp;t=2915s">Lyft&rsquo;s Envoy: from Monolith to Service Mesh</a> is a talk by Matt Klein about the
+Envoy proxy, which is a gRPC api. It&rsquo;s a good talk, that shows the exciting
+and complex things you can design with this framework.</li>
+</ul>
+
+    </div>
+  </article>
+  <nav class="back-nav">
+  <a href="/post">← back to posts</a>
+  </nav>
+</section>
+
+        </main>
+        
+<footer>
+  <div class="footer__left">
+  <b class='footer_logo'><a href="/">ii</a></b>
+  </div>
+  <div class='footer__right'>
+  <ul class="contact-details">
+ 
+    <li>   
+      <a href="https://github.com/ii">
+        <div id="github" class="icon">
+            <i class="fab fa-github"></i>
+        </div>
+        Github
+      </a>
+    </li>
+    <li>
+      <a href="https://gitlab.com/ii">
+        <div class="icon">
+          <i class="fab fa-gitlab"></i>
+        </div>
+        Gitlab
+      </a>
+    </li>
+    <li>
+      <a href="mailto:hello@ii.nz">
+        <div class="icon">
+          <i class="fas fa-envelope"></i>
+      </div>
+      Email
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/company/99165471/" target="_blank" rel="noopener noreferrer">
+        <div class="icon">
+          <i class="fab fa-linkedin"></i>
+        </div>
+        LinkedIn
+      </a>
+    </li>
+    
+  </ul>
+</footer>
+    </body>
+</html>

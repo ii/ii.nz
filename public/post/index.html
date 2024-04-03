@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>ii.nz</title>
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Yeseva+One&family=Noto+Sans">
+   <link rel="stylesheet" href='/css/normalize.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/variables.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/main.css' type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&display=swap" rel="stylesheet">
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+  </style>
+</head>
+<body>
+        <body onload="checkDarkMode()">
+    <header>
+      <nav class="navbar" role="navigation">
+        <div class="navbar__left">
+          <a href="/" class="nav-logo">
+            <img src="/assets/nav-logo.png" id="navLogo" alt="Logo">
+          </a>
+        </div>
+        <div class="navbar__right" id="navbarRight">
+          <li>   
+            <div class="icon" onclick="toggleIcon()">
+              <i class="fas fa-moon" id="toggleMode"></i>
+            </div>
+          </li>
+          <a href="/team">Team</a>
+          <a href="/projects">Projects</a>
+          <a href="/post">Blog</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+  
+    <script>
+      
+      function checkDarkMode() {
+        var storedMode = localStorage.getItem('darkMode');
+        if (storedMode === 'enabled') {
+          applyDarkMode();
+        }
+      }
+  
+      function toggleIcon() {
+        var iconElement = document.getElementById('toggleMode');
+     
+        
+        if (iconElement.classList.contains('fa-moon')) {
+          applyDarkMode();
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          removeDarkMode();
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      }
+  
+      
+      function applyDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+
+        iconElement.classList.remove('fa-moon');
+        iconElement.classList.add('fa-sun');
+        bg.classList.add('bg-dark');
+        header.classList.add('header-dark');
+        navbarRight.classList.add("navbar__right--dark");
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = 'white';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.add('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.add('modal-dark');
+        }
+        logoImage.src = "\/assets\/dark-mode-logo.png";
+      }
+  
+      
+      function removeDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+        
+        iconElement.classList.remove('fa-sun');
+        iconElement.classList.add('fa-moon');
+        bg.classList.remove('bg-dark');
+        header.classList.remove('header-dark');
+        navbarRight.classList.remove("navbar__right--dark");
+        logoImage.src = "\/assets\/nav-logo.png";
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = '';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.remove('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.remove('modal-dark');
+        }
+
+      }
+    </script>
+  </body>
+  
+        <main id="content">
+
+<div class="content center-column">
+  <h1 class="section-title">Posts</h1>
+
+  
+  <ul class="post-list">
+  
+    <li class="post-list__item">
+      <a href="/post/experimenting-with-migrating-from-fedora-workstation-to-fedora-silverblue/" class="post-title">Experimenting with Migrating from Fedora Workstation to Fedora Silverblue</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/caleb-woodbine>
+        Caleb Woodbine
+      </a>
+      
+      <span class='post-date'>May 24, 2023</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/kubernetes-conformance-updates-for-october-2022/" class="post-title">Kubernetes conformance updates for October 2022</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/caleb-woodbine>
+        Caleb Woodbine
+      </a>
+      
+      <a class="post-author" href=/team/riaan-kleinhans>
+        Riaan Kleinhans
+      </a>
+      
+      <a class="post-author" href=/team/stephen-heywood>
+        Stephen Heywood
+      </a>
+      
+      <span class='post-date'>Oct 19, 2022</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/xds-conformance/" class="post-title">xDS Conformance Project</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/zach-mandeville>
+        Zach Mandeville
+      </a>
+      
+      <span class='post-date'>Dec 9, 2021</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/building-a-data-pipeline-for-displaying-kubernetes-public-artifact-traffic/" class="post-title">Building a data pipeline for displaying Kubernetes public artifact traffic</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/caleb-woodbine>
+        Caleb Woodbine
+      </a>
+      
+      <span class='post-date'>Aug 24, 2021</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/creating-an-e2e-test-for-conformance/" class="post-title">Creating an e2e test for Conformance</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/stephen-heywood>
+        Stephen Heywood
+      </a>
+      
+      <span class='post-date'>May 11, 2021</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/rerouting-container-registries-with-envoy/" class="post-title">Rerouting Container Registries With Envoy</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/caleb-woodbine>
+        Caleb Woodbine
+      </a>
+      
+      <span class='post-date'>Apr 15, 2021</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/cncf-dan/" class="post-title">Thank You Dan Kohn</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/riaan-kleinhans>
+        Riaan Kleinhans
+      </a>
+      
+      <span class='post-date'>Mar 19, 2021</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/grpc-learning/" class="post-title">Learning Update: Introduction to gRPC</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/zach-mandeville>
+        Zach Mandeville
+      </a>
+      
+      <span class='post-date'>Mar 9, 2021</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/deplying-talos-to-equinix/" class="post-title">Deploying Talos to Equinix</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/caleb-woodbine>
+        Caleb Woodbine
+      </a>
+      
+      <a class="post-author" href=/team/andrew-rynhard>
+        Andrew Rynhard
+      </a>
+      
+      <span class='post-date'>Feb 3, 2021</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/going-far-together--open-source-technology-in-post-covid-new-zealand/" class="post-title">Going Far Together: Open-Source Technology In Post-COVID New Zealand</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Jun 29, 2020</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/flashing-hardware-with-software-from-the-web/" class="post-title">Flashing hardware with software from the web</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Jan 4, 2017</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/bringing-the-cloud-to-your-community/" class="post-title">Bringing the cloud to your community</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Jan 4, 2017</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/funding-community-initiatives/" class="post-title">funding community initiatives</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Sep 14, 2016</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/sharing-values&#43;feelings-and-spending-time&#43;-together/" class="post-title">sharing values&#43;feelings and spending time&#43;$ together</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Sep 12, 2016</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/ii-wants-chilli4change-@basestationnz/" class="post-title">ii wants #chilli4change @basestationnz</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Sep 9, 2016</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/using-cookbook_file-per-node-on-windows/" class="post-title">Using cookbook_file per Node on Windows</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Sep 6, 2016</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/ssl-certificate-bindings-on-windows-with-chef/" class="post-title">SSL Certificate Bindings on Windows with Chef</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Sep 6, 2016</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/helping-blind-youth-to-see-the-stars/" class="post-title">helping blind youth to see the stars</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Sep 5, 2016</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/pushing-vagrant-speed-with-squid-for-all-http-&#43;-https-traffic/" class="post-title">Pushing vagrant speed with squid for all http &#43; https traffic</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Dec 19, 2015</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/rpi-zero-gadget-support/" class="post-title">RPi Zero Gadget Support</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Dec 6, 2015</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/5-usb-gadgets-for-everyone/" class="post-title">5 Dollar USB Gadgets for Everyone</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Dec 6, 2015</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/digital-ocean-apiv2--in-chef-provisioning/" class="post-title">Digital Ocean APIv2  in chef-provisioning</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>Oct 30, 2015</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/mr--rogers-congressional-invitation-to-participate/" class="post-title">Mr. Rogers Congressional Invitation To Participate</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>May 1, 1969</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/i-trust-that-you-will-read-this/" class="post-title">I Trust That You Will Read This</a>
+      <div class="post-metadata">
+      
+      <a class="post-author" href=/team/hippie-hacker>
+        Hippie Hacker
+      </a>
+      
+      <span class='post-date'>May 1, 1969</span>
+      </div>
+    </li>
+  
+    <li class="post-list__item">
+      <a href="/post/building-a-data-pipline-for-displaying-kubernetes-public-artifact-traffic/" class="post-title"></a>
+      <div class="post-metadata">
+      
+      <span class='post-date'>Jan 1, 0001</span>
+      </div>
+    </li>
+  
+  </ul>
+</div>
+
+        </main>
+        
+<footer>
+  <div class="footer__left">
+  <b class='footer_logo'><a href="/">ii</a></b>
+  </div>
+  <div class='footer__right'>
+  <ul class="contact-details">
+ 
+    <li>   
+      <a href="https://github.com/ii">
+        <div id="github" class="icon">
+            <i class="fab fa-github"></i>
+        </div>
+        Github
+      </a>
+    </li>
+    <li>
+      <a href="https://gitlab.com/ii">
+        <div class="icon">
+          <i class="fab fa-gitlab"></i>
+        </div>
+        Gitlab
+      </a>
+    </li>
+    <li>
+      <a href="mailto:hello@ii.nz">
+        <div class="icon">
+          <i class="fas fa-envelope"></i>
+      </div>
+      Email
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/company/99165471/" target="_blank" rel="noopener noreferrer">
+        <div class="icon">
+          <i class="fab fa-linkedin"></i>
+        </div>
+        LinkedIn
+      </a>
+    </li>
+    
+  </ul>
+</footer>
+    </body>
+</html>

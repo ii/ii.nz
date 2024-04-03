@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html><head>
+	<meta name="generator" content="Hugo 0.124.1"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>ii.nz</title>
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Yeseva+One&family=Noto+Sans">
+   <link rel="stylesheet" href='/css/normalize.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/variables.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/main.css' type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&display=swap" rel="stylesheet">
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+  </style>
+</head>
+<body>
+        <body onload="checkDarkMode()">
+    <header>
+      <nav class="navbar" role="navigation">
+        <div class="navbar__left">
+          <a href="/" class="nav-logo">
+            <img src="/assets/nav-logo.png" id="navLogo" alt="Logo">
+          </a>
+        </div>
+        <div class="navbar__right" id="navbarRight">
+          <li>   
+            <div class="icon" onclick="toggleIcon()">
+              <i class="fas fa-moon" id="toggleMode"></i>
+            </div>
+          </li>
+          <a href="/team">Team</a>
+          <a href="/projects">Projects</a>
+          <a href="/post">Blog</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+  
+    <script>
+      
+      function checkDarkMode() {
+        var storedMode = localStorage.getItem('darkMode');
+        if (storedMode === 'enabled') {
+          applyDarkMode();
+        }
+      }
+  
+      function toggleIcon() {
+        var iconElement = document.getElementById('toggleMode');
+     
+        
+        if (iconElement.classList.contains('fa-moon')) {
+          applyDarkMode();
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          removeDarkMode();
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      }
+  
+      
+      function applyDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+
+        iconElement.classList.remove('fa-moon');
+        iconElement.classList.add('fa-sun');
+        bg.classList.add('bg-dark');
+        header.classList.add('header-dark');
+        navbarRight.classList.add("navbar__right--dark");
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = 'white';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.add('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.add('modal-dark');
+        }
+        logoImage.src = "\/assets\/dark-mode-logo.png";
+      }
+  
+      
+      function removeDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+        
+        iconElement.classList.remove('fa-sun');
+        iconElement.classList.add('fa-moon');
+        bg.classList.remove('bg-dark');
+        header.classList.remove('header-dark');
+        navbarRight.classList.remove("navbar__right--dark");
+        logoImage.src = "\/assets\/nav-logo.png";
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = '';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.remove('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.remove('modal-dark');
+        }
+
+      }
+    </script>
+  </body>
+  
+        <main id="content">
+<div class="overflow">
+<div id="particles-js"></div>
+<div id="home-banner">
+  <img src=/assets/grasseffect-bg.png />
+</div>
+<div class="center-column">
+<figure class="splash-image">
+  <img src=/assets/ii-logo-new.png
+       alt="&#34;the ii logo, bright yellow, filled with cartoon versions of software mascots from the various free software we use in our work.&#34;"
+  />
+</figure>
+<div class='hello'>
+  <div class="centered-section">
+    <h3>Contributing to community growth and wellbeing through service and technology.</h3>
+  </div>
+  
+<div id="outline-container-headline-1" class="outline-4">
+<h4 id="headline-1">
+Hello!
+</h4>
+<div id="outline-text-headline-1" class="outline-text-4">
+<p>We are a tech company based in Aotearoa New Zealand. We develop and consult on
+open-source, cloud-based solutions that focus on collaboration. Specialising in
+cloud-native technology like Kubernetes, Talos, Knative, and more, our goal is
+to contribute to community growth and wellbeing through service and technology.</p>
+<p>
+Check out <a href="/projects/">the projects</a> we work on, meet our <a href="/team">team</a>, read our <a href="/post/">blog</a>, or
+<a href="mailto:hello@ii.coop">say hello</a>!</p>
+</div>
+</div>
+<div id="outline-container-headline-2" class="outline-4">
+<h4 id="headline-2">
+Let&#39;s pair!
+</h4>
+</div>
+
+</div>
+
+</div>
+</div>
+
+<script src="js/particles.min.js"></script>
+<script src="js/particles.js"></script>
+
+        </main>
+        
+        
+    </body>
+</html>

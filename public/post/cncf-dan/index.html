@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>ii.nz</title>
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Yeseva+One&family=Noto+Sans">
+   <link rel="stylesheet" href='/css/normalize.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/variables.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/main.css' type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&display=swap" rel="stylesheet">
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+  </style>
+</head>
+<body>
+        <body onload="checkDarkMode()">
+    <header>
+      <nav class="navbar" role="navigation">
+        <div class="navbar__left">
+          <a href="/" class="nav-logo">
+            <img src="/assets/nav-logo.png" id="navLogo" alt="Logo">
+          </a>
+        </div>
+        <div class="navbar__right" id="navbarRight">
+          <li>   
+            <div class="icon" onclick="toggleIcon()">
+              <i class="fas fa-moon" id="toggleMode"></i>
+            </div>
+          </li>
+          <a href="/team">Team</a>
+          <a href="/projects">Projects</a>
+          <a href="/post">Blog</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+  
+    <script>
+      
+      function checkDarkMode() {
+        var storedMode = localStorage.getItem('darkMode');
+        if (storedMode === 'enabled') {
+          applyDarkMode();
+        }
+      }
+  
+      function toggleIcon() {
+        var iconElement = document.getElementById('toggleMode');
+     
+        
+        if (iconElement.classList.contains('fa-moon')) {
+          applyDarkMode();
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          removeDarkMode();
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      }
+  
+      
+      function applyDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+
+        iconElement.classList.remove('fa-moon');
+        iconElement.classList.add('fa-sun');
+        bg.classList.add('bg-dark');
+        header.classList.add('header-dark');
+        navbarRight.classList.add("navbar__right--dark");
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = 'white';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.add('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.add('modal-dark');
+        }
+        logoImage.src = "\/assets\/dark-mode-logo.png";
+      }
+  
+      
+      function removeDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+        
+        iconElement.classList.remove('fa-sun');
+        iconElement.classList.add('fa-moon');
+        bg.classList.remove('bg-dark');
+        header.classList.remove('header-dark');
+        navbarRight.classList.remove("navbar__right--dark");
+        logoImage.src = "\/assets\/nav-logo.png";
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = '';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.remove('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.remove('modal-dark');
+        }
+
+      }
+    </script>
+  </body>
+  
+        <main id="content">
+<section class="post__entry">
+  <article>
+    <h1 class="post__title">Thank You Dan Kohn</h1>
+    <div class="post__info">
+      <p>By
+        
+        <span class='post__author'>
+          Riaan Kleinhans
+        </span>
+        
+        ,
+        <time>March 19, 2021</time>
+      </p>
+    </div>
+    </div>
+    <div class="post__content">
+      <p>This is a story about relationships, and how they are the currency that moves
+this world forward. It is a story about ii&rsquo;s relationship with Dan Kohn, and how
+his visionary leadership and friendship changed our world, and the open source
+community.</p>
+
+<h3 id="ships-servers-and-friends">
+  Ships, Servers, and Friends
+  <a class = 'heading-anchor' href="#ships-servers-and-friends">#</a>
+</h3>
+<p>In 2015, Hippie Hacker consulted for <a href="https://www.chef.io/">Chef.io</a>, with one
+of his assignments involving the <a href="https://en.wikipedia.org/wiki/Maritime_Telecommunications_Network">Maritime Telecommunications
+Network</a>
+(MTN). Through this assignment, Hippie met Aaron Crickenburger, who at the time
+worked for MTN Chief innovation officer Bob Wise.</p>
+<p>Aaron and Hippie did amazing things together, deploying hands-off,
+over-the-internet, network booting of servers that were then mananged by Chef
+software. They spent several weeks together making this happen and through this
+developed a friendship that, in the rippling effect of relationships, would
+influence the direction of Kubernetes today.</p>
+<!-- NOTE:
+I am not sure where this anecdote fits into the story about Dan, Kubernetes, and ii.  
+In the interest of having a clear narrative, I edited it out.
+
+During this time Hippie was preparing a presentation about the work he was doing
+with the [Marine Reach](https://marinereach.com/) vessels. He asked Bob and his
+team if he could show them his presentation for some feedback from a live
+audience. The team really resonated with Hippie’s passion for the things he was
+involved in with Marine Reach. -->
+<p>During the MTN project, Bob shipped servers to Hippie&rsquo;s home in Portland,
+Oregon, to help with the network-booting work. When Hippie later moved to
+Aotearoa New Zealand, he was unable to bring the servers with them. Hippie then
+asked Bob if he had any money available to help relocate the servers to Aotearoa
+New Zealand. Bob introduced Hippie to someone who could help. This person was
+<a href="https://en.wikipedia.org/wiki/Dan_Kohn">Dan Kohn</a>. Bob introduced the two of
+them, telling Dan about Hippie&rsquo;s work and values. A relationship was formed, the
+servers were relocated, and are still used as part of the infrastructure for
+Hippie&rsquo;s vision.</p>
+
+<h3 id="balena-and-cross-cloud">
+  Balena and Cross-Cloud
+  <a class = 'heading-anchor' href="#balena-and-cross-cloud">#</a>
+</h3>
+<p>Now in Aotearoa New Zealand, Hippie began doing work for <a href="https://www.balena.io/">Balena</a>
+with <a href="https://github.com/denverwilliams">Denver Williams</a>. This technology
+enabled the &ldquo;image pull and networking boot&rdquo; in new, exciting ways. Inspired,
+Hippie set to use this technology with Kubernetes, by pulling down the images
+and installing <a href="https://about.gitlab.com">GitLab</a> on top of it. He showed a demo
+of this to Dan who, impressed by this innovative approach to using Kubernetes,
+asked Hippie if he&rsquo;d like to join the CNCF to help demonstrate what the
+orginzation is capable of. Hippie jumped in, helping to create a <a href="https://github.com/cncf/demo/">Demo of CNCF
+technologies</a>.</p>
+<p>While the demo did not get much traction, it was foundational in exploring
+ideas which evolved into Hippie&rsquo;s next project with CNCF. Dan had a vision to
+get all cloud providers actively engaged in the cloud-native experience. This
+vision manifested as <a href="https://github.com/crosscloudci/cross-cloud">Cross-Cloud</a>,
+a way to concretely show the work of CNCF through a web
+frontend(<a href="https://cncf.ci/">cncf.ci</a>) that showed all the projects available on
+participating cloud providers. <a href="https://github.com/taylor">Taylor Carpenter</a>, a
+long time friend, continued the project with the <a href="https://vulk.coop">vulk.coop</a>
+team and Hippie moved on to tackle new challenges with Dan.</p>
+
+<h3 id="the-start-of-conformance">
+  The start of Conformance
+  <a class = 'heading-anchor' href="#the-start-of-conformance">#</a>
+</h3>
+<p>In 2017 Hippie attended his first CloudNativeCon + KubeCon Europe in Berlin,
+Germany. It was here that Dan introduced the Kubernetes conformance standard,
+and the Kubernetes Certified Service Provider program.</p>
+<p>A year later, in February 2018 <a href="https://github.com/oomichi">Kenichi Omichi</a> dug
+into the Kubernetes logs and found that Kubernetes had 481 API endpoints, only 53
+of them were covered by tests. Dan knew that for the <a href="https://github.com/cncf/k8s-conformance/pulls#certified-kubernetes">Certified Kubernetes
+brand</a> to
+have meaning, they needed to invest to make sure test coverage was much higher.
+The problem was not just a lack of tests, but a lack of visibility&ndash;it required
+heavy, manual data mining just to calculate coverage in the first place.</p>
+<p>To find a solution to this problem, Hippie paired with <a href="https://github.com/rohfle">Rohan
+Fletcher</a>. During a discussion with Hippie and Rohan,
+Dan showed them a disk usage graph for OSX and proposed they use a similar graph
+to visualize Conformance coverage of the Kubernetes API.</p>
+<figure class="oversized">
+<img src="/images/blog_image/disk_graph.png" />
+<figcaption>
+The actual screenshot Dan shared to show his vision
+</figcaption>
+</figure>
+
+<h3 id="apisnoop">
+  APISnoop
+  <a class = 'heading-anchor' href="#apisnoop">#</a>
+</h3>
+<p>Rohan started on the project to create what would be
+<a href="https://apisnoop.cncf.io/">APISnoop</a>: a visual insight into Kubernetes test
+coverage. This project was well-received by the community when it was introduced
+at Kubecon Europe 2018.</p>
+<p>That same year, <a href="https://github.com/zachmandeville">Zach Mandeville</a> joined the
+team and took over development of APISnoop. At that point there was no real
+automation for generating Snoop&rsquo;s data. Much was still done by manually looking
+for tests in audit event logs. Zach did a lot of the writing, rewriting, and
+architectural changes to APISnoop, along with driving updates of underlying
+Kubernetes logging so that clear coverage information could be distinguished
+from noise.</p>
+<p>While APISnoop worked to show gaps in Conformance coverage, a separate effort
+was started to fill those gaps with tests. Unfortunately, this effort was slow
+going. After about a year, APISnoop showed very little movement on the graph, as
+the test writing efforts yielded very little results. Within character, Dan
+started to look for other ways to get an increase in coverage happening at a
+rate that satisfied his vision.</p>
+<p>Since Hippie and his team had been looking at the Kubernetes API and all its
+underlying parts for almost a year, it was a logical fit for them to step up to
+the test-writing efforts, and work to increase the test writing velocity.</p>
+
+<h3 id="test-writing">
+  Test-Writing
+  <a class = 'heading-anchor' href="#test-writing">#</a>
+</h3>
+<p>The writing of tests was a learning experience for everyone in ii, as well as
+the contributors in the Kubernetes community. Initially, the process was to
+quietly work on tests, ensuring they fit all known requirements and then, once
+they seemed ready, to share it with the community through a PR. These PR&rsquo;s
+invariably sparked feedback and needed revisions, and could lead to discussions
+on whether the particular test meaningfully changed the coverage at all. The
+process for writing, rewriting, and collaborating on tests was slower than
+desired.</p>
+<p>Hippie and the ii team&ndash; notably Devan Carpenter, <a href="https://github.com/bobymcbobs">Caleb
+Woodbine</a>, and <a href="https://github.com/heyste">Stephen
+Heywood</a>&ndash; came up with the mock test concept, using
+org-mode in their own flavor of <a href="http://humacs.org/">Emacs (Humacs)</a>
+deployed on a Kubernetes cluster. Zach decoupled the APISNoop database from the
+app , so that it could be deployed to the cluster and used as part of a
+test-writing environment. This allowed for tighter feedback loops, with test
+writers able to immediately see whether their mock test hit the endpoints they
+expected. These mock tests, along with their projected results as calculated by
+APISnoop, were then presented at the SIG Architecture Conformance sub-project
+meetings for initial approval, before creating the actual tests and pull
+requests.</p>
+<p>The Kubernetes project is a complex organism, with a vast community and diverse
+<a href="https://github.com/kubernetes/community">Special Interest Groups</a> (SIG’s).
+Conformance works across all these organizational levels, and reaching consensus
+on it is an equally complex task. The collaborative test-writing method of
+Hippie’s team helped increase the velocity and transparency of test writing.</p>
+<!-- Note: am not sure if this section fits fully into the flow of the essay. If
+we want to publicize sharing.io, it might be served better in its own blog post.
+--> <!-- These tools and methods are continually being improved to encouraging
+<p>&ndash;&gt; <!-- co-operation between test writers. One recent iteration is the creation
+of --> <!-- [Sharing.io](https://pair.sharing.io/) for collaboration, it also
+brought into --> <!-- being their unique --> <!--
+[Kind+APISnoop](https://github.com/cncf/apisnoop/tree/main/kind) combination --></p>
+<!-- that allows anyone to access the power of APISnoop locally. -->
+
+<h3 id="iterations-and-automations">
+  Iterations and Automations
+  <a class = 'heading-anchor' href="#iterations-and-automations">#</a>
+</h3>
+<p>Dan was always pushing the bar higher, continually expecting better and clearer
+results out of APISnoop so it would be a well-used tool throughout the
+Kubernetes community. This inspired Zach and ii to continually improve its
+functionality, changing APISnoop from a static page showing only the current
+status of conformance, to a multi-faceted tool with multiple ways to view not
+just the current data, but the historical progress of Conformance. Hippie
+developed a unique Kind+APISnoop combination that allowed anyone to access the
+querying power of APISnoop locally.</p>
+<figure class="oversized">
+<img src="/images/blog_image/1_15Cover.png" />
+<figcaption>
+Test Cover 1.15
+</figcaption>
+</figure>
+<figure class="oversized">
+<img src="/images/blog_image/1_21cover.png" />
+<figcaption>
+Test Cover 1.21
+</figcaption>
+</figure>
+<figure class="oversized">
+<img src="/images/blog_image/Conformance-progress.png" />
+<figcaption>
+Conformance Progress graph
+</figcaption>
+</figure>
+<p>The increased conformance coverage was great news, and added the expected value
+to the Certified Kubernetes brand. At the same time, it was making life
+increasingly difficult for <a href="https://github.com/taylorwaggoner">Taylor Waggoner</a>
+at the CNCF to manage the Conformance Certification process. All pull requests
+for certification had to be manually verified to ensure it contained all tests,
+but the list of conformance tests kept growing with each release.</p>
+<p>Dan approached Hippie and requested the process to be automated, and in 2020 the
+CNCF CI Bot was created by <a href="https://github.com/bernokl">Berno Kleinhans </a>and
+<a href="https://github.com/RobertKielty">Rob Kielty</a>. This allowed for the automatic
+checking and labeling of conformance pull requests, speeding up the process and
+reducing the human effort needed.</p>
+
+<h3 id="thank-you">
+  Thank you
+  <a class = 'heading-anchor' href="#thank-you">#</a>
+</h3>
+<p>The Kubernetes Conformance journey up to this day is an eventful one, built
+around relationships and community cooperation, with many different contributors
+playing their part to help move this forward. All of this was made possible by
+the extraordinary vision and leadership of a friend dear to everyone in the
+Kubernetes community: Dan Kohn.</p>
+<figure class="oversized">
+<img src="/images/blog_image/dan_kohn.jpg" />
+<figcaption>
+Dan Kohn
+</figcaption>
+</figure>
+
+    </div>
+  </article>
+  <nav class="back-nav">
+  <a href="/post">← back to posts</a>
+  </nav>
+</section>
+
+        </main>
+        
+<footer>
+  <div class="footer__left">
+  <b class='footer_logo'><a href="/">ii</a></b>
+  </div>
+  <div class='footer__right'>
+  <ul class="contact-details">
+ 
+    <li>   
+      <a href="https://github.com/ii">
+        <div id="github" class="icon">
+            <i class="fab fa-github"></i>
+        </div>
+        Github
+      </a>
+    </li>
+    <li>
+      <a href="https://gitlab.com/ii">
+        <div class="icon">
+          <i class="fab fa-gitlab"></i>
+        </div>
+        Gitlab
+      </a>
+    </li>
+    <li>
+      <a href="mailto:hello@ii.nz">
+        <div class="icon">
+          <i class="fas fa-envelope"></i>
+      </div>
+      Email
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/company/99165471/" target="_blank" rel="noopener noreferrer">
+        <div class="icon">
+          <i class="fab fa-linkedin"></i>
+        </div>
+        LinkedIn
+      </a>
+    </li>
+    
+  </ul>
+</footer>
+    </body>
+</html>

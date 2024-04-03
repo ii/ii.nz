@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>ii.nz</title>
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Yeseva+One&family=Noto+Sans">
+   <link rel="stylesheet" href='/css/normalize.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/variables.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/main.css' type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&display=swap" rel="stylesheet">
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+  </style>
+</head>
+<body>
+        <body onload="checkDarkMode()">
+    <header>
+      <nav class="navbar" role="navigation">
+        <div class="navbar__left">
+          <a href="/" class="nav-logo">
+            <img src="/assets/nav-logo.png" id="navLogo" alt="Logo">
+          </a>
+        </div>
+        <div class="navbar__right" id="navbarRight">
+          <li>   
+            <div class="icon" onclick="toggleIcon()">
+              <i class="fas fa-moon" id="toggleMode"></i>
+            </div>
+          </li>
+          <a href="/team">Team</a>
+          <a href="/projects">Projects</a>
+          <a href="/post">Blog</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+  
+    <script>
+      
+      function checkDarkMode() {
+        var storedMode = localStorage.getItem('darkMode');
+        if (storedMode === 'enabled') {
+          applyDarkMode();
+        }
+      }
+  
+      function toggleIcon() {
+        var iconElement = document.getElementById('toggleMode');
+     
+        
+        if (iconElement.classList.contains('fa-moon')) {
+          applyDarkMode();
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          removeDarkMode();
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      }
+  
+      
+      function applyDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+
+        iconElement.classList.remove('fa-moon');
+        iconElement.classList.add('fa-sun');
+        bg.classList.add('bg-dark');
+        header.classList.add('header-dark');
+        navbarRight.classList.add("navbar__right--dark");
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = 'white';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.add('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.add('modal-dark');
+        }
+        logoImage.src = "\/assets\/dark-mode-logo.png";
+      }
+  
+      
+      function removeDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+        
+        iconElement.classList.remove('fa-sun');
+        iconElement.classList.add('fa-moon');
+        bg.classList.remove('bg-dark');
+        header.classList.remove('header-dark');
+        navbarRight.classList.remove("navbar__right--dark");
+        logoImage.src = "\/assets\/nav-logo.png";
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = '';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.remove('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.remove('modal-dark');
+        }
+
+      }
+    </script>
+  </body>
+  
+        <main id="content">
+<section class="post__entry">
+  <article>
+    <h1 class="post__title">Deploying Talos to Equinix</h1>
+    <div class="post__info">
+      <p>By
+        
+        <span class='post__author'>
+          Caleb Woodbine
+        </span>
+        
+        <span class='post__author'>
+          Andrew Rynhard
+        </span>
+        
+        ,
+        <time>February 3, 2021</time>
+      </p>
+    </div>
+    </div>
+    <div class="post__content">
+      
+<h2 id="introduction">
+  Introduction
+  <a class = 'heading-anchor' href="#introduction">#</a>
+</h2>
+<p>In this guide we will launch a highly-available three Node Kubernetes cluster on Equinix Metal using Talos as the Node OS, as well as bootstrap, and controlPlane provider for Cluster-API.</p>
+<p>What is <a href="https://cluster-api.sigs.k8s.io/">Cluster-API</a>?
+:</p>
+<blockquote>
+<p>Cluster API is a Kubernetes sub-project focused on providing declarative APIs and tooling to simplify provisioning, upgrading, and operating multiple Kubernetes clusters.</p>
+</blockquote>
+<p>What is <a href="https://www.talos.dev/">Talos</a>?
+:</p>
+<blockquote>
+<p>Talos is a modern OS designed to be secure, immutable, and minimal.</p>
+</blockquote>
+<p>What is <a href="https://metal.equinix.com/">Equinix Metal</a>?
+:</p>
+<blockquote>
+<p>A globally-available bare metal “as-a-service” that can be deployed and interconnected in minutes.</p>
+</blockquote>
+<p>The folks over at Equinix Metal have a wonderful heart for supporting Open Source communities.</p>
+<dl>
+<dt>Why is this important?</dt>
+<dd>In general: Orchestrating a container based OS such as Talos (<a href="http://flatcar-linux.org/">Flatcar</a>, <a href="https://getfedora.org/coreos/">Fedora CoreOS</a>, or <a href="https://rancher.com/products/rancher/">RancherOS</a>) shifts focus from the Nodes to the workloads. In terms of Talos: Currently the documentation for running an OS such as Talos in Equinix Metal for Kubernetes with Cluster-API is not so well documented and therefore inaccessible. It&rsquo;s important to fill in the gaps of knowledge.</dd>
+</dl>
+
+<h2 id="dependencies">
+  Dependencies
+  <a class = 'heading-anchor' href="#dependencies">#</a>
+</h2>
+<p>What you&rsquo;ll need for this guide:</p>
+<ul>
+<li>
+<p><a href="https://github.com/talos-systems/talos/releases/tag/v0.8.1">talosctl</a></p>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a></p>
+</li>
+<li>
+<p><a href="https://github.com/packethost/packet-cli">packet-cli</a></p>
+</li>
+<li>
+<p>the ID and API token of existing Equinix Metal project</p>
+</li>
+<li>
+<p>an existing Kubernetes cluster with a public IP (such as <a href="http://kind.sigs.k8s.io/">kind</a>, <a href="https://minikube.sigs.k8s.io/">minikube</a>, or a cluster already on Equinix Metal)</p>
+</li>
+</ul>
+
+<h2 id="preliminary-steps">
+  Preliminary steps
+  <a class = 'heading-anchor' href="#preliminary-steps">#</a>
+</h2>
+<p>In order to talk to Equinix Metal, we&rsquo;ll export environment variables to configure resources and talk via <code>packet-cli</code>.</p>
+<p>Set the correct project to create and manage resources in:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  read -p &#39;PACKET_PROJECT_ID: &#39; PACKET_PROJECT_ID
+</span></span></code></pre></div><p>The API key for your account or project:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  read -p &#39;PACKET_API_KEY: &#39; PACKET_API_KEY
+</span></span></code></pre></div><p>Export the variables to be accessible from <code>packet-cli</code> and <code>clusterctl</code> later on:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>  <span style="color:#007020;font-weight:bold">export</span> PACKET_PROJECT_ID PACKET_API_KEY PACKET_TOKEN<span style="color:#666">=$</span>PACKET_API_KEY
+</span></span></code></pre></div><p>In the existing cluster, a public LoadBalancer IP will be needed. I have already installed nginx-ingress in this cluster, which has got a Service with the cluster&rsquo;s elastic IP.
+We&rsquo;ll need this IP address later for use in booting the servers.
+If you have set up your existing cluster differently, it&rsquo;ll just need to be an IP that we can use.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>  <span style="color:#007020;font-weight:bold">export</span> LOAD_BALANCER_IP<span style="color:#666">=</span><span style="color:#4070a0">&#34;$(kubectl -n nginx-ingress get svc nginx-ingress-ingress-nginx-controller -o=jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)&#34;</span>
+</span></span></code></pre></div>
+<h2 id="setting-up-cluster-api">
+  Setting up Cluster-API
+  <a class = 'heading-anchor' href="#setting-up-cluster-api">#</a>
+</h2>
+<p>Install Talos providers for Cluster-API bootstrap and controlplane in your existing cluster:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  clusterctl init -b talos -c talos -i packet
+</span></span></code></pre></div><p>This will install Talos&rsquo;s bootstrap and controlPlane controllers as well as the Packet / Equinix Metal infrastructure provider.</p>
+<p><strong><strong>Important</strong></strong> note:</p>
+<ul>
+<li>the <code>bootstrap-talos</code> controller in the <code>cabpt-system</code> namespace must be running a version greater than <code>v0.2.0-alpha.8</code>. The version can be displayed in with <code>clusterctl upgrade plan</code> when it&rsquo;s installed.</li>
+</ul>
+
+<h2 id="setting-up-matchbox">
+  Setting up Matchbox
+  <a class = 'heading-anchor' href="#setting-up-matchbox">#</a>
+</h2>
+<p>Currently, since Equinix Metal have <strong><strong>not</strong></strong> yet added support for Talos, it is necessary to install <a href="https://matchbox.psdn.io/">Matchbox</a> to boot the servers (There is an <a href="https://github.com/packethost/packet-images/issues/26">issue</a> in progress and <a href="https://feedback.equinixmetal.com/operating-systems/p/talos-as-officially-supported-operating-system">feedback</a> for adding support).</p>
+<p>What is Matchbox?
+:</p>
+<blockquote>
+<p>Matchbox is a service that matches bare-metal machines to profiles that PXE boot and provision clusters.</p>
+</blockquote>
+<p>Here is the manifest for a basic matchbox installation:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>apps/v1<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>Deployment<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">metadata</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>matchbox<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">replicas</span>:<span style="color:#bbb"> </span><span style="color:#40a070">1</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">strategy</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">rollingUpdate</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">maxUnavailable</span>:<span style="color:#bbb"> </span><span style="color:#40a070">1</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">selector</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">matchLabels</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>matchbox<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">template</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">metadata</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">labels</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>matchbox<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">containers</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>matchbox<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">image</span>:<span style="color:#bbb"> </span>quay.io/poseidon/matchbox:v0.9.0<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">env</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span>- <span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>MATCHBOX_ADDRESS<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">                </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;0.0.0.0:8080&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span>- <span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>MATCHBOX_LOG_LEVEL<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">                </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;debug&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">ports</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span>- <span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>http<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">                </span><span style="color:#062873;font-weight:bold">containerPort</span>:<span style="color:#bbb"> </span><span style="color:#40a070">8080</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">livenessProbe</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">initialDelaySeconds</span>:<span style="color:#bbb"> </span><span style="color:#40a070">5</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">httpGet</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">                </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">                </span><span style="color:#062873;font-weight:bold">port</span>:<span style="color:#bbb"> </span><span style="color:#40a070">8080</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">resources</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">requests</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">                </span><span style="color:#062873;font-weight:bold">cpu</span>:<span style="color:#bbb"> </span>30m<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">                </span><span style="color:#062873;font-weight:bold">memory</span>:<span style="color:#bbb"> </span>20Mi<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">limits</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">                </span><span style="color:#062873;font-weight:bold">cpu</span>:<span style="color:#bbb"> </span>50m<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">                </span><span style="color:#062873;font-weight:bold">memory</span>:<span style="color:#bbb"> </span>50Mi<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">volumeMounts</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span>- <span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>data<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">                </span><span style="color:#062873;font-weight:bold">mountPath</span>:<span style="color:#bbb"> </span>/var/lib/matchbox<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span>- <span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>assets<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">                </span><span style="color:#062873;font-weight:bold">mountPath</span>:<span style="color:#bbb"> </span>/var/lib/matchbox/assets<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">volumes</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>data<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">hostPath</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/var/local/matchbox/data<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>assets<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">hostPath</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/var/local/matchbox/assets<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>---<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>v1<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>Service<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">metadata</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>matchbox<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">annotations</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">metallb.universe.tf/allow-shared-ip</span>:<span style="color:#bbb"> </span>nginx-ingress<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">type</span>:<span style="color:#bbb"> </span>LoadBalancer<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">selector</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>matchbox<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">ports</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span>- <span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>http<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">protocol</span>:<span style="color:#bbb"> </span>TCP<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">port</span>:<span style="color:#bbb"> </span><span style="color:#40a070">8080</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">targetPort</span>:<span style="color:#bbb"> </span><span style="color:#40a070">8080</span><span style="color:#bbb">
+</span></span></span></code></pre></div><p>Save it as <code>matchbox.yaml</code></p>
+<p>The manifests above were inspired by the manifests in the <a href="https://github.com/poseidon/matchbox/tree/master/contrib/k8s">matchbox repo</a>.
+For production it might be wise to use:</p>
+<ul>
+<li>an Ingress with full TLS</li>
+<li>a ReadWriteMany storage provider instead hostPath for scaling</li>
+</ul>
+<p>With the manifests ready to go, we&rsquo;ll install Matchbox into the <code>matchbox</code> namespace on the existing cluster with the following commands:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  kubectl create ns matchbox
+</span></span><span style="display:flex;"><span>  kubectl -n matchbox apply -f ./matchbox.yaml
+</span></span></code></pre></div><p>You may need to patch the <code>Service.spec.externalIPs</code> to have an IP to access it from if one is not populated:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  kubectl -n matchbox patch \
+</span></span><span style="display:flex;"><span>    service matchbox \
+</span></span><span style="display:flex;"><span>    -p &#34;{\&#34;spec\&#34;:{\&#34;externalIPs\&#34;:[\&#34;$LOAD_BALANCER_IP\&#34;]}}&#34;
+</span></span></code></pre></div><p>Once the pod is live, We&rsquo;ll need to create a directory structure for storing Talos boot assets:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>  kubectl <span style="color:#666">-</span>n matchbox exec <span style="color:#666">-</span>it \
+</span></span><span style="display:flex;"><span>    deployment<span style="color:#666">/</span>matchbox <span style="color:#666">--</span> \
+</span></span><span style="display:flex;"><span>    mkdir <span style="color:#666">-</span>p <span style="color:#666">/</span><span style="color:#007020;font-weight:bold">var</span><span style="color:#666">/</span>lib<span style="color:#666">/</span>matchbox<span style="color:#666">/</span>{profiles,groups} <span style="color:#666">/</span><span style="color:#007020;font-weight:bold">var</span><span style="color:#666">/</span>lib<span style="color:#666">/</span>matchbox<span style="color:#666">/</span>assets<span style="color:#666">/</span>talos
+</span></span></code></pre></div><p>Inside the Matchbox container, we&rsquo;ll download the Talos boot assets for Talos version 0.8.1 into the assets folder:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>  kubectl <span style="color:#666">-</span>n matchbox exec <span style="color:#666">-</span>it \
+</span></span><span style="display:flex;"><span>    deployment<span style="color:#666">/</span>matchbox <span style="color:#666">--</span> \
+</span></span><span style="display:flex;"><span>    wget <span style="color:#666">-</span>P <span style="color:#666">/</span><span style="color:#007020;font-weight:bold">var</span><span style="color:#666">/</span>lib<span style="color:#666">/</span>matchbox<span style="color:#666">/</span>assets<span style="color:#666">/</span>talos \
+</span></span><span style="display:flex;"><span>    https:<span style="color:#666">//</span>github<span style="color:#666">.</span>com<span style="color:#666">/</span>talos<span style="color:#666">-</span>systems<span style="color:#666">/</span>talos<span style="color:#666">/</span>releases<span style="color:#666">/</span>download<span style="color:#666">/</span>v0<span style="color:#666">.</span><span style="color:#40a070">8.1</span><span style="color:#666">/</span>initramfs<span style="color:#666">-</span>amd64<span style="color:#666">.</span>xz \
+</span></span><span style="display:flex;"><span>    https:<span style="color:#666">//</span>github<span style="color:#666">.</span>com<span style="color:#666">/</span>talos<span style="color:#666">-</span>systems<span style="color:#666">/</span>talos<span style="color:#666">/</span>releases<span style="color:#666">/</span>download<span style="color:#666">/</span>v0<span style="color:#666">.</span><span style="color:#40a070">8.1</span><span style="color:#666">/</span>vmlinuz<span style="color:#666">-</span>amd64
+</span></span></code></pre></div><p>Now that the assets have been downloaded, run a checksum against them to verify:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>  kubectl <span style="color:#666">-</span>n matchbox exec <span style="color:#666">-</span>it \
+</span></span><span style="display:flex;"><span>    deployment<span style="color:#666">/</span>matchbox <span style="color:#666">--</span> \
+</span></span><span style="display:flex;"><span>    sh <span style="color:#666">-</span>c <span style="color:#4070a0">&#34;cd /var/lib/matchbox/assets/talos &amp;&amp; </span><span style="color:#4070a0;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4070a0;font-weight:bold"></span><span style="color:#4070a0">      wget -O- https://github.com/talos-systems/talos/releases/download/v0.8.1/sha512sum.txt 2&gt; /dev/null </span><span style="color:#4070a0;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4070a0;font-weight:bold"></span><span style="color:#4070a0">      | sed &#39;s,_out/,,g&#39; </span><span style="color:#4070a0;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4070a0;font-weight:bold"></span><span style="color:#4070a0">      | grep &#39;initramfs-amd64.xz\|vmlinuz-amd64&#39; </span><span style="color:#4070a0;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4070a0;font-weight:bold"></span><span style="color:#4070a0">      | sha512sum -c -&#34;</span>
+</span></span></code></pre></div><p>Since there&rsquo;s only one Pod in the Matchbox deployment, we&rsquo;ll export it&rsquo;s name to copy files into it:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>  <span style="color:#007020;font-weight:bold">export</span> MATCHBOX_POD_NAME<span style="color:#666">=$</span>(kubectl <span style="color:#666">-</span>n matchbox get pods <span style="color:#666">-</span>l name<span style="color:#666">=</span>matchbox <span style="color:#666">-</span>o<span style="color:#666">=</span>jsonpath<span style="color:#666">=</span><span style="color:#4070a0">&#39;{.items[0].metadata.name}&#39;</span>)
+</span></span></code></pre></div><p><a href="https://matchbox.psdn.io/matchbox/#profiles">Profiles in Matchbox</a> are JSON configurations for how the servers should boot, where from, and their kernel args. Save this file as <code>profile-default-amd64.json</code></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#062873;font-weight:bold">&#34;id&#34;</span>: <span style="color:#4070a0">&#34;default-amd64&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#062873;font-weight:bold">&#34;name&#34;</span>: <span style="color:#4070a0">&#34;default-amd64&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#062873;font-weight:bold">&#34;boot&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#062873;font-weight:bold">&#34;kernel&#34;</span>: <span style="color:#4070a0">&#34;/assets/talos/vmlinuz-amd64&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#062873;font-weight:bold">&#34;initrd&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;/assets/talos/initramfs-amd64.xz&#34;</span>
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#062873;font-weight:bold">&#34;args&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;initrd=initramfs-amd64.xz&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;init_on_alloc=1&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;init_on_free=1&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;slub_debug=P&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;pti=on&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;random.trust_cpu=on&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;console=tty0&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;console=ttyS1,115200n8&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;slab_nomerge&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;printk.devkmsg=on&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;talos.platform=packet&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;talos.config=none&#34;</span>
+</span></span><span style="display:flex;"><span>      ]
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p><a href="https://matchbox.psdn.io/matchbox/#groups">Groups in Matchbox</a> are a way of letting servers pick up profiles based on selectors. Save this file as <code>group-default-amd64.json</code></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#062873;font-weight:bold">&#34;id&#34;</span>: <span style="color:#4070a0">&#34;default-amd64&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#062873;font-weight:bold">&#34;name&#34;</span>: <span style="color:#4070a0">&#34;default-amd64&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#062873;font-weight:bold">&#34;profile&#34;</span>: <span style="color:#4070a0">&#34;default-amd64&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#062873;font-weight:bold">&#34;selector&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#062873;font-weight:bold">&#34;arch&#34;</span>: <span style="color:#4070a0">&#34;amd64&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>We&rsquo;ll copy the profile and group into their respective folders:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>  kubectl <span style="color:#666">-</span>n matchbox \
+</span></span><span style="display:flex;"><span>    cp <span style="color:#666">./</span>profile<span style="color:#666">-</span>default<span style="color:#666">-</span>amd64<span style="color:#666">.</span>json \
+</span></span><span style="display:flex;"><span>    <span style="color:#666">$</span>MATCHBOX_POD_NAME:<span style="color:#666">/</span><span style="color:#007020;font-weight:bold">var</span><span style="color:#666">/</span>lib<span style="color:#666">/</span>matchbox<span style="color:#666">/</span>profiles<span style="color:#666">/</span>default<span style="color:#666">-</span>amd64<span style="color:#666">.</span>json
+</span></span><span style="display:flex;"><span>  kubectl <span style="color:#666">-</span>n matchbox \
+</span></span><span style="display:flex;"><span>    cp <span style="color:#666">./</span>group<span style="color:#666">-</span>default<span style="color:#666">-</span>amd64<span style="color:#666">.</span>json \
+</span></span><span style="display:flex;"><span>    <span style="color:#666">$</span>MATCHBOX_POD_NAME:<span style="color:#666">/</span><span style="color:#007020;font-weight:bold">var</span><span style="color:#666">/</span>lib<span style="color:#666">/</span>matchbox<span style="color:#666">/</span>groups<span style="color:#666">/</span>default<span style="color:#666">-</span>amd64<span style="color:#666">.</span>json
+</span></span></code></pre></div><p>List the files to validate that they were written correctly:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>  kubectl <span style="color:#666">-</span>n matchbox exec <span style="color:#666">-</span>it \
+</span></span><span style="display:flex;"><span>    deployment<span style="color:#666">/</span>matchbox <span style="color:#666">--</span> \
+</span></span><span style="display:flex;"><span>    sh <span style="color:#666">-</span>c <span style="color:#4070a0">&#39;ls -alh /var/lib/matchbox/*/&#39;</span>
+</span></span></code></pre></div>
+<h3 id="testing-matchbox">
+  Testing Matchbox
+  <a class = 'heading-anchor' href="#testing-matchbox">#</a>
+</h3>
+<p>Using <code>curl</code>, we can verify Matchbox&rsquo;s running state:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  curl http://$LOAD_BALANCER_IP:8080
+</span></span></code></pre></div><p>To test matchbox, we&rsquo;ll create an invalid userdata configuration for Talos, saving as <code>userdata.txt</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>#!talos
+</span></span></code></pre></div><p>Feel free to use a valid one.</p>
+<p>Now let&rsquo;s talk to Equinix Metal to create a server pointing to the Matchbox server:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>   packet-cli device create \
+</span></span><span style="display:flex;"><span>    --hostname talos-pxe-boot-test-1 \
+</span></span><span style="display:flex;"><span>    --plan c1.small.x86 \
+</span></span><span style="display:flex;"><span>    --facility sjc1 \
+</span></span><span style="display:flex;"><span>    --operating-system custom_ipxe \
+</span></span><span style="display:flex;"><span>    --project-id &#34;$PACKET_PROJECT_ID&#34; \
+</span></span><span style="display:flex;"><span>    --ipxe-script-url &#34;http://$LOAD_BALANCER_IP:8080/ipxe?arch=amd64&#34; \
+</span></span><span style="display:flex;"><span>    --userdata-file=./userdata.txt
+</span></span></code></pre></div><p>In the meanwhile, we can watch the logs to see how things are:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  kubectl -n matchbox logs deployment/matchbox -f --tail=100
+</span></span></code></pre></div><p>Looking at the logs, there should be some get requests of resources that will be used to boot the OS.</p>
+<p>Notes:</p>
+<ul>
+<li>fun fact: you can run Matchbox on Android using <a href="https://f-droid.org/en/packages/com.termux/">Termux</a>.</li>
+</ul>
+
+<h2 id="the-cluster">
+  The cluster
+  <a class = 'heading-anchor' href="#the-cluster">#</a>
+</h2>
+
+<h3 id="preparing-the-cluster">
+  Preparing the cluster
+  <a class = 'heading-anchor' href="#preparing-the-cluster">#</a>
+</h3>
+<p>Here we will declare the template that we will shortly generate our usable cluster from:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>TalosControlPlane<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>controlplane.cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">metadata</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;${CLUSTER_NAME}-control-plane&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">version</span>:<span style="color:#bbb"> </span>${KUBERNETES_VERSION}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">replicas</span>:<span style="color:#bbb"> </span>${CONTROL_PLANE_MACHINE_COUNT}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">infrastructureTemplate</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>infrastructure.cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>PacketMachineTemplate<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;${CLUSTER_NAME}-control-plane&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">controlPlaneConfig</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">init</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">generateType</span>:<span style="color:#bbb"> </span>init<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">configPatches</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">op</span>:<span style="color:#bbb"> </span>replace<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/machine/install<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">disk</span>:<span style="color:#bbb"> </span>/dev/sda<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">image</span>:<span style="color:#bbb"> </span>ghcr.io/talos-systems/installer:v0.8.1<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">bootloader</span>:<span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">true</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">wipe</span>:<span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">false</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">force</span>:<span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">false</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">op</span>:<span style="color:#bbb"> </span>add<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/machine/kubelet/extraArgs<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">cloud-provider</span>:<span style="color:#bbb"> </span>external<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">op</span>:<span style="color:#bbb"> </span>add<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/cluster/apiServer/extraArgs<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">cloud-provider</span>:<span style="color:#bbb"> </span>external<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">op</span>:<span style="color:#bbb"> </span>add<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/cluster/controllerManager/extraArgs<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">cloud-provider</span>:<span style="color:#bbb"> </span>external<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">op</span>:<span style="color:#bbb"> </span>add<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/cluster/extraManifests<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span>- https://github.com/packethost/packet-ccm/releases/download/v1.1.0/deployment.yaml<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">op</span>:<span style="color:#bbb"> </span>add<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/cluster/allowSchedulingOnMasters<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">true</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">controlplane</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">generateType</span>:<span style="color:#bbb"> </span>controlplane<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">configPatches</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">op</span>:<span style="color:#bbb"> </span>replace<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/machine/install<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">disk</span>:<span style="color:#bbb"> </span>/dev/sda<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">image</span>:<span style="color:#bbb"> </span>ghcr.io/talos-systems/installer:v0.8.1<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">bootloader</span>:<span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">true</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">wipe</span>:<span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">false</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">force</span>:<span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">false</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">op</span>:<span style="color:#bbb"> </span>add<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/machine/kubelet/extraArgs<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">cloud-provider</span>:<span style="color:#bbb"> </span>external<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">op</span>:<span style="color:#bbb"> </span>add<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/cluster/apiServer/extraArgs<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">cloud-provider</span>:<span style="color:#bbb"> </span>external<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">op</span>:<span style="color:#bbb"> </span>add<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/cluster/controllerManager/extraArgs<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">              </span><span style="color:#062873;font-weight:bold">cloud-provider</span>:<span style="color:#bbb"> </span>external<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#062873;font-weight:bold">op</span>:<span style="color:#bbb"> </span>add<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">path</span>:<span style="color:#bbb"> </span>/cluster/allowSchedulingOnMasters<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">value</span>:<span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">true</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>---<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>infrastructure.cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>PacketMachineTemplate<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">metadata</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;${CLUSTER_NAME}-control-plane&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">template</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">OS</span>:<span style="color:#bbb"> </span>custom_ipxe<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">ipxeURL</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;http://${IPXE_SERVER_IP}:8080/ipxe?arch=amd64&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">billingCycle</span>:<span style="color:#bbb"> </span>hourly<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">machineType</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;${CONTROLPLANE_NODE_TYPE}&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">sshKeys</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#4070a0">&#34;${SSH_KEY}&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">tags</span>:<span style="color:#bbb"> </span>[]<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>---<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>Cluster<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">metadata</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;${CLUSTER_NAME}&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">clusterNetwork</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">pods</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">cidrBlocks</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- ${POD_CIDR:=192.168.0.0/16}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">services</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">cidrBlocks</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- ${SERVICE_CIDR:=172.26.0.0/16}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">infrastructureRef</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>infrastructure.cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>PacketCluster<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;${CLUSTER_NAME}&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">controlPlaneRef</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>controlplane.cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>TalosControlPlane<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;${CLUSTER_NAME}-control-plane&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>---<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>infrastructure.cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>PacketCluster<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">metadata</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;${CLUSTER_NAME}&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">projectID</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;${PACKET_PROJECT_ID}&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">facility</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;${FACILITY}&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>---<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>MachineDeployment<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">metadata</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>${CLUSTER_NAME}-worker-a<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">labels</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">cluster.x-k8s.io/cluster-name</span>:<span style="color:#bbb"> </span>${CLUSTER_NAME}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">pool</span>:<span style="color:#bbb"> </span>worker-a<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">replicas</span>:<span style="color:#bbb"> </span>${WORKER_MACHINE_COUNT}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">clusterName</span>:<span style="color:#bbb"> </span>${CLUSTER_NAME}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">selector</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">matchLabels</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">cluster.x-k8s.io/cluster-name</span>:<span style="color:#bbb"> </span>${CLUSTER_NAME}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">pool</span>:<span style="color:#bbb"> </span>worker-a<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">template</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">metadata</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">labels</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span><span style="color:#062873;font-weight:bold">cluster.x-k8s.io/cluster-name</span>:<span style="color:#bbb"> </span>${CLUSTER_NAME}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span><span style="color:#062873;font-weight:bold">pool</span>:<span style="color:#bbb"> </span>worker-a<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">version</span>:<span style="color:#bbb"> </span>${KUBERNETES_VERSION}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">clusterName</span>:<span style="color:#bbb"> </span>${CLUSTER_NAME}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">bootstrap</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span><span style="color:#062873;font-weight:bold">configRef</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>${CLUSTER_NAME}-worker-a<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>bootstrap.cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>TalosConfigTemplate<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">infrastructureRef</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>${CLUSTER_NAME}-worker-a<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>infrastructure.cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>PacketMachineTemplate<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>---<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>infrastructure.cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>PacketMachineTemplate<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">metadata</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>${CLUSTER_NAME}-worker-a<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">template</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">OS</span>:<span style="color:#bbb"> </span>custom_ipxe<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">ipxeURL</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;http://${IPXE_SERVER_IP}:8080/ipxe?arch=amd64&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">billingCycle</span>:<span style="color:#bbb"> </span>hourly<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">machineType</span>:<span style="color:#bbb"> </span><span style="color:#4070a0">&#34;${WORKER_NODE_TYPE}&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">sshKeys</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">          </span>- <span style="color:#4070a0">&#34;${SSH_KEY}&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">tags</span>:<span style="color:#bbb"> </span>[]<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span>---<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">apiVersion</span>:<span style="color:#bbb"> </span>bootstrap.cluster.x-k8s.io/v1alpha3<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">kind</span>:<span style="color:#bbb"> </span>TalosConfigTemplate<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">metadata</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">name</span>:<span style="color:#bbb"> </span>${CLUSTER_NAME}-worker-a<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">labels</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">cluster.x-k8s.io/cluster-name</span>:<span style="color:#bbb"> </span>${CLUSTER_NAME}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">  </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#062873;font-weight:bold">template</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">      </span><span style="color:#062873;font-weight:bold">spec</span>:<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#062873;font-weight:bold">generateType</span>:<span style="color:#bbb"> </span>init<span style="color:#bbb">
+</span></span></span></code></pre></div><p>Inside of <code>TalosControlPlane.spec.controlPlaneConfig.init</code>, I&rsquo;m very much liking the use of <code>generateType: init</code> paired with <code>configPatches</code>. This enables:</p>
+<ul>
+<li>configuration to be generated;</li>
+<li>management of certificates out of the cluster operator&rsquo;s hands;</li>
+<li>another level of standardisation; and</li>
+<li>overrides to be added where needed</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>the ClusterAPI template above uses Packet-Cloud-Controller manager version 1.1.0</li>
+</ul>
+
+<h4 id="templating-your-configuration">
+  Templating your configuration
+  <a class = 'heading-anchor' href="#templating-your-configuration">#</a>
+</h4>
+<p>Set environment variables for configuration:</p>
+<p><a id="code-snippet--cluster-config-env"></a></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    <span style="color:#007020">export</span> <span style="color:#bb60d5">CLUSTER_NAME</span><span style="color:#666">=</span><span style="color:#4070a0">&#34;talos-metal&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007020">export</span> <span style="color:#bb60d5">FACILITY</span><span style="color:#666">=</span>sjc1
+</span></span><span style="display:flex;"><span>  <span style="color:#007020">export</span> <span style="color:#bb60d5">KUBERNETES_VERSION</span><span style="color:#666">=</span>v1.20.2
+</span></span><span style="display:flex;"><span>  <span style="color:#007020">export</span> <span style="color:#bb60d5">POD_CIDR</span><span style="color:#666">=</span>10.244.0.0/16
+</span></span><span style="display:flex;"><span>  <span style="color:#007020">export</span> <span style="color:#bb60d5">SERVICE_CIDR</span><span style="color:#666">=</span>10.96.0.0/12
+</span></span><span style="display:flex;"><span>  <span style="color:#007020">export</span> <span style="color:#bb60d5">CONTROLPLANE_NODE_TYPE</span><span style="color:#666">=</span>c1.small.x86
+</span></span><span style="display:flex;"><span>  <span style="color:#007020">export</span> <span style="color:#bb60d5">CONTROL_PLANE_MACHINE_COUNT</span><span style="color:#666">=</span><span style="color:#40a070">3</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007020">export</span> <span style="color:#bb60d5">WORKER_NODE_TYPE</span><span style="color:#666">=</span>c1.small.x86
+</span></span><span style="display:flex;"><span>  <span style="color:#007020">export</span> <span style="color:#bb60d5">WORKER_MACHINE_COUNT</span><span style="color:#666">=</span><span style="color:#40a070">0</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007020">export</span> <span style="color:#bb60d5">SSH_KEY</span><span style="color:#666">=</span><span style="color:#4070a0">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007020">export</span> <span style="color:#bb60d5">IPXE_URL</span><span style="color:#666">=</span><span style="color:#bb60d5">$LOAD_BALANCER_IP</span>
+</span></span></code></pre></div><p>In the variables above, we will create a cluster which has three small controlPlane nodes to run workloads.</p>
+
+<h4 id="render-the-manifests">
+  Render the manifests
+  <a class = 'heading-anchor' href="#render-the-manifests">#</a>
+</h4>
+<p>Render your cluster configuration from the template:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  clusterctl config cluster &#34;$CLUSTER_NAME&#34; \
+</span></span><span style="display:flex;"><span>    --from ./talos-packet-cluster-template.yaml \
+</span></span><span style="display:flex;"><span>    -n &#34;$CLUSTER_NAME&#34; &gt; &#34;$CLUSTER_NAME&#34;-cluster-capi.yaml
+</span></span></code></pre></div>
+<h3 id="creating-the-cluster">
+  Creating the cluster
+  <a class = 'heading-anchor' href="#creating-the-cluster">#</a>
+</h3>
+<p>With the template for the cluster rendered to how wish to deploy it, it&rsquo;s now time to apply it:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  kubectl create ns &#34;$CLUSTER_NAME&#34;
+</span></span><span style="display:flex;"><span>  kubectl -n &#34;$CLUSTER_NAME&#34; apply -f ./&#34;$CLUSTER_NAME&#34;-cluster-capi.yaml
+</span></span></code></pre></div><p>The cluster will now be brought up, we can see the progress by taking a look at the resources:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  kubectl -n &#34;$CLUSTER_NAME&#34; get machines,clusters,packetmachines,packetclusters
+</span></span></code></pre></div><p>Note: As expected, the cluster may take some time to appear and be accessible.</p>
+<p>Not long after applying, a KubeConfig is available. Fetch the KubeConfig from the existing cluster with:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  kubectl -n &#34;$CLUSTER_NAME&#34; get secrets \
+</span></span><span style="display:flex;"><span>    &#34;$CLUSTER_NAME&#34;-kubeconfig -o=jsonpath=&#39;{.data.value}&#39; \
+</span></span><span style="display:flex;"><span>    | base64 -d &gt; $HOME/.kube/&#34;$CLUSTER_NAME&#34;
+</span></span></code></pre></div><p>Using the KubeConfig from the new cluster, check out the status of it:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  kubectl --kubeconfig $HOME/.kube/&#34;$CLUSTER_NAME&#34; cluster-info
+</span></span></code></pre></div><p>Once the APIServer is reachable, create configuration for how the Packet-Cloud-Controller-Manager should talk to Equinix-Metal:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  kubectl --kubeconfig $HOME/.kube/&#34;$CLUSTER_NAME&#34; -n kube-system \
+</span></span><span style="display:flex;"><span>    create secret generic packet-cloud-config \
+</span></span><span style="display:flex;"><span>    --from-literal=cloud-sa.json=&#34;{\&#34;apiKey\&#34;: \&#34;${PACKET_API_KEY}\&#34;,\&#34;projectID\&#34;: \&#34;${PACKET_PROJECT_ID}\&#34;}&#34;
+</span></span></code></pre></div><p>Since we&rsquo;re able to talk to the APIServer, we can check how all Pods are doing:</p>
+<p><a id="code-snippet--list all Pods"></a></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    <span style="color:#007020">export</span> <span style="color:#bb60d5">CLUSTER_NAME</span><span style="color:#666">=</span><span style="color:#4070a0">&#34;talos-metal&#34;</span>
+</span></span><span style="display:flex;"><span>  kubectl --kubeconfig <span style="color:#bb60d5">$HOME</span>/.kube/<span style="color:#4070a0">&#34;</span><span style="color:#bb60d5">$CLUSTER_NAME</span><span style="color:#4070a0">&#34;</span><span style="color:#4070a0;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4070a0;font-weight:bold"></span>    -n kube-system get pods
+</span></span></code></pre></div><p>Listing Pods shows that everything is live and in a good state:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>NAMESPACE     NAME                                                     READY   STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>kube-system   coredns-5b55f9f688-fb2cb                                 1/1     Running   <span style="color:#40a070">0</span>          25m
+</span></span><span style="display:flex;"><span>kube-system   coredns-5b55f9f688-qsvg5                                 1/1     Running   <span style="color:#40a070">0</span>          25m
+</span></span><span style="display:flex;"><span>kube-system   kube-apiserver-665px                                     1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   kube-apiserver-mz68q                                     1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   kube-apiserver-qfklt                                     1/1     Running   <span style="color:#40a070">2</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   kube-controller-manager-6grxd                            1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   kube-controller-manager-cf76h                            1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   kube-controller-manager-dsmgf                            1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   kube-flannel-brdxw                                       1/1     Running   <span style="color:#40a070">0</span>          24m
+</span></span><span style="display:flex;"><span>kube-system   kube-flannel-dm85d                                       1/1     Running   <span style="color:#40a070">0</span>          24m
+</span></span><span style="display:flex;"><span>kube-system   kube-flannel-sg6k9                                       1/1     Running   <span style="color:#40a070">0</span>          24m
+</span></span><span style="display:flex;"><span>kube-system   kube-proxy-flx59                                         1/1     Running   <span style="color:#40a070">0</span>          24m
+</span></span><span style="display:flex;"><span>kube-system   kube-proxy-gbn4l                                         1/1     Running   <span style="color:#40a070">0</span>          24m
+</span></span><span style="display:flex;"><span>kube-system   kube-proxy-ns84v                                         1/1     Running   <span style="color:#40a070">0</span>          24m
+</span></span><span style="display:flex;"><span>kube-system   kube-scheduler-4qhjw                                     1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   kube-scheduler-kbm5z                                     1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   kube-scheduler-klsmp                                     1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   packet-cloud-controller-manager-77cd8c9c7c-cdzfv         1/1     Running   <span style="color:#40a070">0</span>          20m
+</span></span><span style="display:flex;"><span>kube-system   pod-checkpointer-4szh6                                   1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   pod-checkpointer-4szh6-talos-metal-control-plane-j29lb   1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   pod-checkpointer-k7w8h                                   1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   pod-checkpointer-k7w8h-talos-metal-control-plane-lk9f2   1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   pod-checkpointer-m5wrh                                   1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span><span style="display:flex;"><span>kube-system   pod-checkpointer-m5wrh-talos-metal-control-plane-h9v4j   1/1     Running   <span style="color:#40a070">0</span>          19m
+</span></span></code></pre></div><p>With the cluster live, it&rsquo;s now ready for workloads to be deployed!</p>
+
+<h2 id="talos-configuration">
+  Talos Configuration
+  <a class = 'heading-anchor' href="#talos-configuration">#</a>
+</h2>
+<p>In order to manage Talos Nodes outside of Kubernetes, we need to create and set up configuration to use.</p>
+<p>Create the directory for the config:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  mkdir -p $HOME/.talos
+</span></span></code></pre></div><p>Discover the IP for the first controlPlane:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>  <span style="color:#007020;font-weight:bold">export</span> TALOS_ENDPOINT<span style="color:#666">=$</span>(kubectl <span style="color:#666">-</span>n <span style="color:#4070a0">&#34;$CLUSTER_NAME&#34;</span> \
+</span></span><span style="display:flex;"><span>    get machines \
+</span></span><span style="display:flex;"><span>    <span style="color:#666">$</span>(kubectl <span style="color:#666">-</span>n <span style="color:#4070a0">&#34;$CLUSTER_NAME&#34;</span> \
+</span></span><span style="display:flex;"><span>      get machines <span style="color:#666">-</span>l cluster<span style="color:#666">.</span>x<span style="color:#666">-</span>k8s<span style="color:#666">.</span>io<span style="color:#666">/</span>control<span style="color:#666">-</span>plane<span style="color:#666">=</span><span style="color:#4070a0">&#39;&#39;</span> \
+</span></span><span style="display:flex;"><span>      <span style="color:#666">--</span>no<span style="color:#666">-</span>headers <span style="color:#666">--</span>output<span style="color:#666">=</span>jsonpath<span style="color:#666">=</span><span style="color:#4070a0">&#39;{.items[0].metadata.name}&#39;</span>) \
+</span></span><span style="display:flex;"><span>      <span style="color:#666">-</span>o<span style="color:#666">=</span>jsonpath<span style="color:#666">=</span><span style="color:#4070a0">&#34;{.status.addresses[?(@.type==&#39;ExternalIP&#39;)].address}&#34;</span> <span style="color:#666">|</span> awk <span style="color:#4070a0">&#39;{print $2}&#39;</span>)
+</span></span></code></pre></div><p>Fetch the <code>talosconfig</code> from the existing cluster:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  kubectl get talosconfig \
+</span></span><span style="display:flex;"><span>    -n $CLUSTER_NAME \
+</span></span><span style="display:flex;"><span>    -l cluster.x-k8s.io/cluster-name=$CLUSTER_NAME \
+</span></span><span style="display:flex;"><span>    -o yaml -o jsonpath=&#39;{.items[0].status.talosConfig}&#39; &gt; $HOME/.talos/&#34;$CLUSTER_NAME&#34;-management-plane-talosconfig.yaml
+</span></span></code></pre></div><p>Write in the configuration the endpoint IP and node IP:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  talosctl \
+</span></span><span style="display:flex;"><span>    --talosconfig $HOME/.talos/&#34;$CLUSTER_NAME&#34;-management-plane-talosconfig.yaml \
+</span></span><span style="display:flex;"><span>    config endpoint $TALOS_ENDPOINT
+</span></span><span style="display:flex;"><span>  talosctl \
+</span></span><span style="display:flex;"><span>    --talosconfig $HOME/.talos/&#34;$CLUSTER_NAME&#34;-management-plane-talosconfig.yaml \
+</span></span><span style="display:flex;"><span>    config node $TALOS_ENDPOINT
+</span></span></code></pre></div><p>Now that the <code>talosconfig</code> has been written, try listing all containers:</p>
+<p><a id="code-snippet--list-containers-on-containerd"></a></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    <span style="color:#007020">export</span> <span style="color:#bb60d5">CLUSTER_NAME</span><span style="color:#666">=</span><span style="color:#4070a0">&#34;talos-metal&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#60a0b0;font-style:italic"># removing ip; omit ` | sed ...` for regular use</span>
+</span></span><span style="display:flex;"><span>  talosctl --talosconfig <span style="color:#bb60d5">$HOME</span>/.talos/<span style="color:#4070a0">&#34;</span><span style="color:#bb60d5">$CLUSTER_NAME</span><span style="color:#4070a0">&#34;</span>-management-plane-talosconfig.yaml containers | sed -r <span style="color:#4070a0">&#39;s/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b&#39;</span>/<span style="color:#4070a0">&#34;x.x.x.x      &#34;</span>/
+</span></span></code></pre></div><p>Here&rsquo;s the containers running on this particular node, in containerd (not k8s related):</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>NODE            NAMESPACE   ID         IMAGE                                  PID    STATUS
+</span></span><span style="display:flex;"><span>x.x.x.x         system      apid       talos/apid                             <span style="color:#40a070">3046</span>   RUNNING
+</span></span><span style="display:flex;"><span>x.x.x.x         system      etcd       gcr.io/etcd-development/etcd:v3.4.14   <span style="color:#40a070">3130</span>   RUNNING
+</span></span><span style="display:flex;"><span>x.x.x.x         system      networkd   talos/networkd                         <span style="color:#40a070">2879</span>   RUNNING
+</span></span><span style="display:flex;"><span>x.x.x.x         system      routerd    talos/routerd                          <span style="color:#40a070">2888</span>   RUNNING
+</span></span><span style="display:flex;"><span>x.x.x.x         system      timed      talos/timed                            <span style="color:#40a070">2976</span>   RUNNING
+</span></span><span style="display:flex;"><span>x.x.x.x         system      trustd     talos/trustd                           <span style="color:#40a070">3047</span>   RUNNING
+</span></span></code></pre></div>
+<h2 id="clean-up">
+  Clean up
+  <a class = 'heading-anchor' href="#clean-up">#</a>
+</h2>
+<p>Tearing down the entire cluster and resources associated with it, can be achieved by</p>
+<ol>
+<li>Deleting the cluster:</li>
+</ol>
+<!--listend-->
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  kubectl -n &#34;$CLUSTER_NAME&#34; delete cluster &#34;$CLUSTER_NAME&#34;
+</span></span></code></pre></div><p>ii. Deleting the namespace:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  kubectl delete ns &#34;$CLUSTER_NAME&#34;
+</span></span></code></pre></div><p>iii. Removing local configurations:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  rm \
+</span></span><span style="display:flex;"><span>    $HOME/.talos/&#34;$CLUSTER_NAME&#34;-management-plane-talosconfig.yaml \
+</span></span><span style="display:flex;"><span>    $HOME/.kube/&#34;$CLUSTER_NAME&#34;
+</span></span></code></pre></div>
+<h2 id="what-have-i-learned-from-this">
+  What have I learned from this?
+  <a class = 'heading-anchor' href="#what-have-i-learned-from-this">#</a>
+</h2>
+<dl>
+<dt>(always learning) how wonderful the Kubernetes community is</dt>
+<dd>there are so many knowledgable individuals who are so ready for collaboration and adoption - it doesn&rsquo;t matter the SIG or group.</dd>
+<dt>how modular Cluster-API is</dt>
+<dd>Cluster-API components (bootstrap, controlPlane, core, infrastructure) can be swapped out and meshed together in very cool ways.</dd>
+</dl>
+
+<h2 id="credits">
+  Credits
+  <a class = 'heading-anchor' href="#credits">#</a>
+</h2>
+<p>Integrating Talos into this project would not be possible without help from <a href="https://github.com/andrewrynhard">Andrew Rynhard (Talos Systems)</a>, huge thanks to him for reaching out for pairing and co-authoring.</p>
+
+<h2 id="notes-and-references">
+  Notes and references
+  <a class = 'heading-anchor' href="#notes-and-references">#</a>
+</h2>
+<ul>
+<li>with the new cluster&rsquo;s controlPlane live and available for deployment, the iPXE server could be moved into that cluster - meaning that new servers boot from the cluster that they&rsquo;ll join, making it almost self-contained</li>
+<li>cluster configuration as based off of <a href="https://github.com/kubernetes-sigs/cluster-api-provider-packet/blob/479faf06e1337b1e979cb624ca8be015b2a89cde/templates/cluster-template.yaml">cluster-template.yaml from the cluster-api-provider-packet repo</a></li>
+<li>this post has been made to <a href="https://blog.calebwoodbine.com/deploying-talos-and-kubernetes-with-cluster-api-on-equinix-metal">blog.calebwoodine.com</a>, and <a href="https://ii.coop/deploying-talos-and-kubernetes-with-cluster-api-on-equinix-metal/">talos-system.com/blog</a>, but is also available as an <a href="https://github.com/ii/org/blob/master/ii/equinix-metal-capi-talos-kubernetes/README.org">Org file</a></li>
+</ul>
+<hr>
+<p>Hope you&rsquo;ve enjoyed the output of this project!
+Thank you!</p>
+
+    </div>
+  </article>
+  <nav class="back-nav">
+  <a href="/post">← back to posts</a>
+  </nav>
+</section>
+
+        </main>
+        
+<footer>
+  <div class="footer__left">
+  <b class='footer_logo'><a href="/">ii</a></b>
+  </div>
+  <div class='footer__right'>
+  <ul class="contact-details">
+ 
+    <li>   
+      <a href="https://github.com/ii">
+        <div id="github" class="icon">
+            <i class="fab fa-github"></i>
+        </div>
+        Github
+      </a>
+    </li>
+    <li>
+      <a href="https://gitlab.com/ii">
+        <div class="icon">
+          <i class="fab fa-gitlab"></i>
+        </div>
+        Gitlab
+      </a>
+    </li>
+    <li>
+      <a href="mailto:hello@ii.nz">
+        <div class="icon">
+          <i class="fas fa-envelope"></i>
+      </div>
+      Email
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/company/99165471/" target="_blank" rel="noopener noreferrer">
+        <div class="icon">
+          <i class="fab fa-linkedin"></i>
+        </div>
+        LinkedIn
+      </a>
+    </li>
+    
+  </ul>
+</footer>
+    </body>
+</html>

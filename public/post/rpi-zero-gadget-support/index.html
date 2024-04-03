@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>ii.nz</title>
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Yeseva+One&family=Noto+Sans">
+   <link rel="stylesheet" href='/css/normalize.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/variables.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/main.css' type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&display=swap" rel="stylesheet">
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+  </style>
+</head>
+<body>
+        <body onload="checkDarkMode()">
+    <header>
+      <nav class="navbar" role="navigation">
+        <div class="navbar__left">
+          <a href="/" class="nav-logo">
+            <img src="/assets/nav-logo.png" id="navLogo" alt="Logo">
+          </a>
+        </div>
+        <div class="navbar__right" id="navbarRight">
+          <li>   
+            <div class="icon" onclick="toggleIcon()">
+              <i class="fas fa-moon" id="toggleMode"></i>
+            </div>
+          </li>
+          <a href="/team">Team</a>
+          <a href="/projects">Projects</a>
+          <a href="/post">Blog</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+  
+    <script>
+      
+      function checkDarkMode() {
+        var storedMode = localStorage.getItem('darkMode');
+        if (storedMode === 'enabled') {
+          applyDarkMode();
+        }
+      }
+  
+      function toggleIcon() {
+        var iconElement = document.getElementById('toggleMode');
+     
+        
+        if (iconElement.classList.contains('fa-moon')) {
+          applyDarkMode();
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          removeDarkMode();
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      }
+  
+      
+      function applyDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+
+        iconElement.classList.remove('fa-moon');
+        iconElement.classList.add('fa-sun');
+        bg.classList.add('bg-dark');
+        header.classList.add('header-dark');
+        navbarRight.classList.add("navbar__right--dark");
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = 'white';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.add('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.add('modal-dark');
+        }
+        logoImage.src = "\/assets\/dark-mode-logo.png";
+      }
+  
+      
+      function removeDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+        
+        iconElement.classList.remove('fa-sun');
+        iconElement.classList.add('fa-moon');
+        bg.classList.remove('bg-dark');
+        header.classList.remove('header-dark');
+        navbarRight.classList.remove("navbar__right--dark");
+        logoImage.src = "\/assets\/nav-logo.png";
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = '';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.remove('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.remove('modal-dark');
+        }
+
+      }
+    </script>
+  </body>
+  
+        <main id="content">
+<section class="post__entry">
+  <article>
+    <h1 class="post__title">RPi Zero Gadget Support</h1>
+    <div class="post__info">
+      <p>By
+        
+        <span class='post__author'>
+          Hippie Hacker
+        </span>
+        
+        ,
+        <time>December 6, 2015</time>
+      </p>
+    </div>
+    </div>
+    <div class="post__content">
+      <p>For most OTG supported ports, it depends on what you plug into it that decides if the port is in host mode or gadget mode. We just need to get confirmation that the RPi zero port is wired the same way for the port that has it&rsquo;s usb data pins connected (not the one dedicated to power).</p>
+<p><a href="https://en.wikipedia.org/wiki/USB_On-The-Go#OTG_micro_plugs">&ldquo;A device with a micro-A plug inserted becomes an OTG A-device, and a device with a micro-B plug inserted becomes a B-device. The type of plug inserted is detected by the state of the pin ID .&rdquo;</a></p>
+<p>The RPi zero USB_OTGID pin should be grounded by the cable when using a micro-A / OTG cable and is hopefully left floating otherwise. That way we can the more common micro-B cable for providing power and connecting the usb data pins to a computer.</p>
+<p>Here is a RPi zero <a href="https://www.raspberrypi.org/documentation/hardware/raspberrypi/mechanical/rpi-zero-v1_2_dimensions.pdf">mechanical diagram</a>, that shows the two usb micro ports for the RPi zero in bottom right:</p>
+<figure class="oversized">
+<img src="https://cloud.githubusercontent.com/assets/31331/11607199/43a2a708-9b0b-11e5-8d98-518769d4df19.png" />
+</figure>
+<p>I couldn&rsquo;t find wiring schematics for RPi zero, so I pulled these from the <a href="https://www.raspberrypi.org/wp-content/uploads/2012/10/Raspberry-Pi-R2.0-Schematics-Issue2.2_027.pdf">RPi A</a></p>
+<p>This is the usb micro port used for power: (no data pins)</p>
+<figure class="oversized">
+<img src="https://cloud.githubusercontent.com/assets/31331/11607210/b6d0f310-9b0b-11e5-97fb-1de5d360647c.png" />
+</figure>
+<p>This is the RPi-A USB-A port (note that the USB_OTGID pin on the usb controller is grounded). On the RPi zero, this connector is a micro-b port, and shouldn&rsquo;t have the USB_OTGID pin grounded, as that is usually done by the cable to distinguish between OTG/Host mode and usb gadget mode.</p>
+<figure class="oversized">
+<img src="https://cloud.githubusercontent.com/assets/31331/11607223/fecac092-9b0b-11e5-8bcf-1d3f2b8e107b.png" />
+</figure>
+<p>I suspect that if we connect a normal <a href="https://en.wikipedia.org/wiki/USB#Cable_plugs_.28USB_1.x.2F2.0.29">usb A to Micro-B cable</a> that doesn&rsquo;t ground out the USB_OTGID pin on the RPi zero, that we can accomplish the correct physical connections without any modifications, but we may need the kernel changes mentioned in this <a href="https://github.com/raspberrypi/linux/issues/881#issuecomment-161411866">comment on #881</a></p>
+<p>Having a $5 usb gadget that could function as a combination of anything in <a href="https://github.com/torvalds/linux/tree/master/drivers/usb/gadget/function">https://github.com/torvalds/linux/tree/master/drivers/usb/gadget/function</a> would be pretty grand.</p>
+<p>I&rsquo;ve opened a ticket for PRi linux kernel to <a href="https://github.com/raspberrypi/linux/issues/1212">discuss this</a>.</p>
+
+    </div>
+  </article>
+  <nav class="back-nav">
+  <a href="/post">← back to posts</a>
+  </nav>
+</section>
+
+        </main>
+        
+<footer>
+  <div class="footer__left">
+  <b class='footer_logo'><a href="/">ii</a></b>
+  </div>
+  <div class='footer__right'>
+  <ul class="contact-details">
+ 
+    <li>   
+      <a href="https://github.com/ii">
+        <div id="github" class="icon">
+            <i class="fab fa-github"></i>
+        </div>
+        Github
+      </a>
+    </li>
+    <li>
+      <a href="https://gitlab.com/ii">
+        <div class="icon">
+          <i class="fab fa-gitlab"></i>
+        </div>
+        Gitlab
+      </a>
+    </li>
+    <li>
+      <a href="mailto:hello@ii.nz">
+        <div class="icon">
+          <i class="fas fa-envelope"></i>
+      </div>
+      Email
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/company/99165471/" target="_blank" rel="noopener noreferrer">
+        <div class="icon">
+          <i class="fab fa-linkedin"></i>
+        </div>
+        LinkedIn
+      </a>
+    </li>
+    
+  </ul>
+</footer>
+    </body>
+</html>

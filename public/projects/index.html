@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>ii.nz</title>
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Yeseva+One&family=Noto+Sans">
+   <link rel="stylesheet" href='/css/normalize.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/variables.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/main.css' type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&display=swap" rel="stylesheet">
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+  </style>
+</head>
+<body>
+        <body onload="checkDarkMode()">
+    <header>
+      <nav class="navbar" role="navigation">
+        <div class="navbar__left">
+          <a href="/" class="nav-logo">
+            <img src="/assets/nav-logo.png" id="navLogo" alt="Logo">
+          </a>
+        </div>
+        <div class="navbar__right" id="navbarRight">
+          <li>   
+            <div class="icon" onclick="toggleIcon()">
+              <i class="fas fa-moon" id="toggleMode"></i>
+            </div>
+          </li>
+          <a href="/team">Team</a>
+          <a href="/projects">Projects</a>
+          <a href="/post">Blog</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+  
+    <script>
+      
+      function checkDarkMode() {
+        var storedMode = localStorage.getItem('darkMode');
+        if (storedMode === 'enabled') {
+          applyDarkMode();
+        }
+      }
+  
+      function toggleIcon() {
+        var iconElement = document.getElementById('toggleMode');
+     
+        
+        if (iconElement.classList.contains('fa-moon')) {
+          applyDarkMode();
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          removeDarkMode();
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      }
+  
+      
+      function applyDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+
+        iconElement.classList.remove('fa-moon');
+        iconElement.classList.add('fa-sun');
+        bg.classList.add('bg-dark');
+        header.classList.add('header-dark');
+        navbarRight.classList.add("navbar__right--dark");
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = 'white';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.add('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.add('modal-dark');
+        }
+        logoImage.src = "\/assets\/dark-mode-logo.png";
+      }
+  
+      
+      function removeDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+        
+        iconElement.classList.remove('fa-sun');
+        iconElement.classList.add('fa-moon');
+        bg.classList.remove('bg-dark');
+        header.classList.remove('header-dark');
+        navbarRight.classList.remove("navbar__right--dark");
+        logoImage.src = "\/assets\/nav-logo.png";
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = '';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.remove('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.remove('modal-dark');
+        }
+
+      }
+    </script>
+  </body>
+  
+        <main id="content">
+
+<div class="content center-grid">
+  <h1 class="section-title">Our Projects</h1>
+
+  <div class="intro center-column">
+    <p>Our team is involved in many different tech and community projects, both in
+Aotearoa New Zealand and global communities. Here are some of the
+projects we are involved in.</p>
+
+  </div>
+
+  <div class="flex-row_outer ">
+    
+    <div class="left-column">
+      <ul class="projects-list flex-row">
+        
+        
+          <li class="projects-item">
+            <h3>Ublue</h3>
+            <div class='Ublue project-img' data-text="
+This is an experiment with our something or other to do cool stuff
+">
+              <img src="/assets/bootable.jpg" />
+            </div>
+            <div class="modal" id="modal">
+              <div class="modal-content" id="modal-content">
+                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
+                <button class="close-btn" id="close-btn">Close</button>
+                <p id="modal-text"></p>
+              </div>
+            </div>
+          </li>
+          
+        
+          <li class="projects-item">
+            <h3>Kubernetes Conformance</h3>
+            <div class='Kubernetes Conformance project-img' data-text="We work with the CNCF to help ensure consistent features for Kubernetes across
+vendor offerings and open source implementations. Our work includes tracking
+conformance progress with audit log analysis, gitops bots that verify
+conformance submissions, writing tests to increae conformance coverage, and
+release-informaing bots that help ensure no new Kubernetes endpoints are added without
+tests.
+">
+              <img src="/assets/k8s.svg" />
+            </div>
+            <div class="modal" id="modal">
+              <div class="modal-content" id="modal-content">
+                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
+                <button class="close-btn" id="close-btn">Close</button>
+                <p id="modal-text"></p>
+              </div>
+            </div>
+          </li>
+          
+            </ul>
+            <ul class="projects-list flex-row">
+          
+        
+          <li class="projects-item">
+            <h3>Apisnoop</h3>
+            <div class='Apisnoop project-img' data-text="
+APISnoop is a site that tracks the progress of the Kubernetes conformance
+project by analyzing the audit logs from end-to-end test runs, to see how many
+conformant endpoints are hit by conformance tests. Our team used postgres and
+svelte to build APISnoop, and the site is used by the larger Kubernetes community to set priorities for conformance work and reduce the creation of technical debt.
+">
+              <img src="/assets/apisnoop.png" />
+            </div>
+            <div class="modal" id="modal">
+              <div class="modal-content" id="modal-content">
+                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
+                <button class="close-btn" id="close-btn">Close</button>
+                <p id="modal-text"></p>
+              </div>
+            </div>
+          </li>
+          
+        
+          <li class="projects-item">
+            <h3>Kubernetes Infra</h3>
+            <div class='Kubernetes Infra project-img' data-text="Our team works regularly with the kubernetes infra working group, to help
+distribute the infrastructural load of the Kubernetes project across multiple community providers to help
+ensure the long-term sustainabality of kubernetes development.
+">
+              <img src="/assets/stephen-testing.jpg" />
+            </div>
+            <div class="modal" id="modal">
+              <div class="modal-content" id="modal-content">
+                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
+                <button class="close-btn" id="close-btn">Close</button>
+                <p id="modal-text"></p>
+              </div>
+            </div>
+          </li>
+          
+        
+      </ul>
+      <h2 class="centered-section">Technical Contribution</h2>
+
+    </div>
+
+    
+    <div class="logo">
+      <img src="/assets/ii-logo-new.png" />
+    </div>
+
+    
+    <div class="right-column">
+      <ul class="projects-list flex-row">
+        
+        
+          <li class="projects-item">
+            <h3>Educational Outreach</h3>
+            <div class="Educational Outreach project-img" data-text="
+In collaboration with select education providers and youth programs, we curate custom workshops, programmes and bootcamps to spark curiosity and foster interest in open source.
+">
+              <img src="/assets/IMG_0162.jpg" />
+            </div>
+            <div class="modal" id="modal">
+              <div class="modal-content" id="modal-content">
+                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
+                <button class="close-btn" id="close-btn">Close</button>
+                <p id="modal-text"></p>
+              </div>
+            </div>
+          </li>
+          
+        
+          <li class="projects-item">
+            <h3>Resource Development</h3>
+            <div class="Resource Development project-img" data-text="
+&#34;The right tools are the bridge between curiosity and knowledge.&#34; (Anon), which is why ii designs a range of learning tools and strategies to help make sense of the world of tech!
+">
+              <img src="/assets/resource.jpg" />
+            </div>
+            <div class="modal" id="modal">
+              <div class="modal-content" id="modal-content">
+                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
+                <button class="close-btn" id="close-btn">Close</button>
+                <p id="modal-text"></p>
+              </div>
+            </div>
+          </li>
+          
+            </ul>
+            <ul class="projects-list flex-row">
+          
+        
+          <li class="projects-item">
+            <h3>Mentoring</h3>
+            <div class="Mentoring project-img" data-text="
+We&#39;re passionate about empowering the next generation of technologists, servant and community leaders, innovators and disruptors through dedicated mentoring.
+">
+              <img src="/assets/Expo23-4.jpg" />
+            </div>
+            <div class="modal" id="modal">
+              <div class="modal-content" id="modal-content">
+                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
+                <button class="close-btn" id="close-btn">Close</button>
+                <p id="modal-text"></p>
+              </div>
+            </div>
+          </li>
+          
+        
+          <li class="projects-item">
+            <h3>Events</h3>
+            <div class="Events project-img" data-text="
+ii regularly runs, supports or participates in events across the globe to promote opportunities in Open Source - career expos, conferences, Meetups, information sessions and industry site tours to name a few!
+">
+              <img src="/assets/shadowTech1.jpg" />
+            </div>
+            <div class="modal" id="modal">
+              <div class="modal-content" id="modal-content">
+                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
+                <button class="close-btn" id="close-btn">Close</button>
+                <p id="modal-text"></p>
+              </div>
+            </div>
+          </li>
+          
+        
+      </ul>
+      <h2 class="centered-section">Educational Contribution</h2>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    function setupModal(projectName, learnMoreLink) {
+      var projectImg = document.querySelector(`.${projectName}`);
+      var modal = document.getElementById('modal');
+      var modalText = document.getElementById('modal-text');
+      var learnMoreBtn = document.getElementById('learn-more-btn');
+      var closeBtn = document.getElementById('close-btn');
+
+      projectImg.addEventListener('click', function () {
+        var dataText = projectImg.getAttribute('data-text');
+        modalText.textContent = dataText;
+
+        learnMoreBtn.addEventListener('click', function () {
+          window.location.href = learnMoreLink;
+        });
+
+        modal.style.display = 'flex';
+      });
+
+      closeBtn.addEventListener('click', function () {
+        modal.style.display = 'none';
+      });
+
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    }
+
+    setupModal('Apisnoop', 'https://apisnoop.cncf.io');
+    setupModal('Ublue', 'fedora');
+    setupModal('Conformance', 'https://www.cncf.io/training/certification/software-conformance/');
+    setupModal('Infra', 'https://kubernetes.io/blog/2020/05/27/an-introduction-to-the-k8s-infrastructure-working-group/');
+    setupModal('Events', ''); 
+    setupModal('Mentoring', ''); 
+    setupModal('Resource', ''); 
+    setupModal('Educational', ''); 
+
+  });
+</script>
+
+
+        </main>
+        
+<footer>
+  <div class="footer__left">
+  <b class='footer_logo'><a href="/">ii</a></b>
+  </div>
+  <div class='footer__right'>
+  <ul class="contact-details">
+ 
+    <li>   
+      <a href="https://github.com/ii">
+        <div id="github" class="icon">
+            <i class="fab fa-github"></i>
+        </div>
+        Github
+      </a>
+    </li>
+    <li>
+      <a href="https://gitlab.com/ii">
+        <div class="icon">
+          <i class="fab fa-gitlab"></i>
+        </div>
+        Gitlab
+      </a>
+    </li>
+    <li>
+      <a href="mailto:hello@ii.nz">
+        <div class="icon">
+          <i class="fas fa-envelope"></i>
+      </div>
+      Email
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/company/99165471/" target="_blank" rel="noopener noreferrer">
+        <div class="icon">
+          <i class="fab fa-linkedin"></i>
+        </div>
+        LinkedIn
+      </a>
+    </li>
+    
+  </ul>
+</footer>
+    </body>
+</html>

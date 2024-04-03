@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>ii.nz</title>
+   <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Yeseva+One&family=Noto+Sans">
+   <link rel="stylesheet" href='/css/normalize.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/variables.css' type="text/css"/>
+   <link rel="stylesheet" href='/css/main.css' type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&display=swap" rel="stylesheet">
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+  </style>
+</head>
+<body>
+        <body onload="checkDarkMode()">
+    <header>
+      <nav class="navbar" role="navigation">
+        <div class="navbar__left">
+          <a href="/" class="nav-logo">
+            <img src="/assets/nav-logo.png" id="navLogo" alt="Logo">
+          </a>
+        </div>
+        <div class="navbar__right" id="navbarRight">
+          <li>   
+            <div class="icon" onclick="toggleIcon()">
+              <i class="fas fa-moon" id="toggleMode"></i>
+            </div>
+          </li>
+          <a href="/team">Team</a>
+          <a href="/projects">Projects</a>
+          <a href="/post">Blog</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+  
+    <script>
+      
+      function checkDarkMode() {
+        var storedMode = localStorage.getItem('darkMode');
+        if (storedMode === 'enabled') {
+          applyDarkMode();
+        }
+      }
+  
+      function toggleIcon() {
+        var iconElement = document.getElementById('toggleMode');
+     
+        
+        if (iconElement.classList.contains('fa-moon')) {
+          applyDarkMode();
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          removeDarkMode();
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      }
+  
+      
+      function applyDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+
+        iconElement.classList.remove('fa-moon');
+        iconElement.classList.add('fa-sun');
+        bg.classList.add('bg-dark');
+        header.classList.add('header-dark');
+        navbarRight.classList.add("navbar__right--dark");
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = 'white';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.add('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.add('modal-dark');
+        }
+        logoImage.src = "\/assets\/dark-mode-logo.png";
+      }
+  
+      
+      function removeDarkMode() {
+        var iconElement = document.getElementById('toggleMode');
+        var bg = document.getElementById("content");
+        var header = document.getElementsByTagName('header')[0];
+        var navbarRight = document.getElementById('navbarRight');
+        var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, b, label,li');
+        var logoImage = document.getElementById('navLogo')
+        var blogPosts = document.getElementsByClassName('post-list__item');
+        var modals = document.getElementsByClassName('modal-content');
+
+        
+        iconElement.classList.remove('fa-sun');
+        iconElement.classList.add('fa-moon');
+        bg.classList.remove('bg-dark');
+        header.classList.remove('header-dark');
+        navbarRight.classList.remove("navbar__right--dark");
+        logoImage.src = "\/assets\/nav-logo.png";
+  
+        for (var i = 0; i < headings.length; i++) {
+          headings[i].style.color = '';
+        }
+        for(var i = 0; i < blogPosts.length; i++){
+            blogPosts[i].classList.remove('blog-dark');
+        }
+        for(var i = 0; i < modals.length; i++){
+            modals[i].classList.remove('modal-dark');
+        }
+
+      }
+    </script>
+  </body>
+  
+        <main id="content">
+<section class="post__entry">
+  <article>
+    <h1 class="post__title">Experimenting with Migrating from Fedora Workstation to Fedora Silverblue</h1>
+    <div class="post__info">
+      <p>By
+        
+        <span class='post__author'>
+          Caleb Woodbine
+        </span>
+        
+        ,
+        <time>May 24, 2023</time>
+      </p>
+    </div>
+    </div>
+    <div class="post__content">
+      
+<blockquote>
+<p>Cross-posted from <a href="https://blog.calebwoodbine.com/experimenting-with-migrating-from-fedora-workstation-to-fedora-silverblue/">https://blog.calebwoodbine.com/experimenting-with-migrating-from-fedora-workstation-to-fedora-silverblue/</a></p>
+</blockquote>
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+📰 Introduction
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p>
+The desktop has always been an important decision point for my digital life.
+Where all my work gets done, my daily flows and the ecosystems I choose to adopt.</p>
+<p>
+Since somewhere around 2019, Fedora has been my desktop distro of choice.
+I ran Fedora Workstation back then and switched to Fedora Silverblue at the end of 2019.</p>
+<p>
+Whilst both are fine OSes; however with Silverblue in particular
+I found that the power of the reliability of an image based OS
+enabled me to focus on things like work instead of system maintenance.</p>
+</div>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+🚀 The objective
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<blockquote>
+<p>Migrate or replace an existing Fedora Workstation install to a Fedora Silverblue deployment.</p>
+</blockquote>
+<p>
+Important things are to</p>
+<ul>
+<li>retain as much basic system config as possible</li>
+<li>retain accounts and user data</li>
+<li>make the process simple (considering all things)</li>
+</ul>
+<p>(more things?)</p>
+<p>
+Given it&#39;s a highly experimental thing, there will always be some level of expectation that some things will either be lost or not the same.</p>
+</div>
+</div>
+<div id="outline-container-headline-3" class="outline-2">
+<h2 id="headline-3">
+2️⃣ A tale of two architectures
+</h2>
+<div id="outline-text-headline-3" class="outline-text-2">
+<p>
+The way these two OSes operate and are laid out is fairly different.</p>
+<p>
+<a href="https://fedoraproject.org/workstation/">Fedora Workstation</a>:</p>
+<ul>
+<li>system file system is read+write</li>
+<li>dnf used for package updates</li>
+<li>home folder in <code>/home</code></li>
+<li>system package upgrades take place on reboot or manually on a live system</li>
+</ul>
+<p><a href="https://fedoraproject.org/silverblue/">Fedora Silverblue</a>:</p>
+<ul>
+<li>system file system is read-only</li>
+<li>the OS is state-managed through <a href="https://ostreedev.github.io/ostree/introduction/">OSTree</a> under the hood</li>
+<li>packages are managed through <a href="https://coreos.github.io/rpm-ostree">rpm-ostree</a> and it&#39;s OSTree integration</li>
+<li>home folder in <code>/var/home</code></li>
+<li>system upgrades take place on reboot (experimental <code>apply-live</code> available. Read more here: <a href="https://coreos.github.io/rpm-ostree/apply-live)">https://coreos.github.io/rpm-ostree/apply-live)</a></li>
+<li>
+<p>file system layout (things of note)</p>
+<dl>
+<dt>
+<code>/home</code>
+</dt>
+<dd>soft symlink to <code>/var/home</code></dd>
+<dt>
+<code>/ostree</code>
+</dt>
+<dd>for the OSTree repo and deploy</dd>
+<dt>
+<code>/sysroot</code>
+</dt>
+<dd>the path to the <em>real</em> root filesystem</dd>
+<dt>
+<code>/usr/local</code>
+</dt>
+<dd>soft symlink to <code>/var/usrlocal</code> for per-machine programs and stuff</dd>
+<dt>
+<code>/var</code>
+</dt>
+<dd>all the system state, including <code>home</code> and <code>roothome</code></dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-2">
+<h2 id="headline-4">
+💻 A thought-filled hack
+</h2>
+<div id="outline-text-headline-4" class="outline-text-2">
+<p>
+Please note that this process is potentially <strong><strong>harmful, irreversible and is a hack</strong></strong>.</p>
+<p>
+<a href="https://github.com/ublue-os/upgrade-tools">github.com/ublue-os/upgrade-tools</a></p>
+<p>
+Here are some lines taken out of the <code>silverblueize.sh</code> script.
+Please note that these steps are only to visualise the process
+and if you wish to be daring and migrate in this way to please
+refer to the script in the repo above.</p>
+<p>
+1️⃣. create an OSTree repo in the root filesystem</p>
+<div class="src src-shell">
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ostree admin init-fs /</span></span></code></pre></div>
+</div>
+<p>
+now you&#39;ll find a <code>/ostree</code> folder in the root filesystem</p>
+<p>
+2️⃣. add the Fedora remote (kind of like with git)</p>
+<div class="src src-shell">
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ostree remote add <span style="color:#4070a0;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4070a0;font-weight:bold"></span>    fedora https://ostree.fedoraproject.org <span style="color:#4070a0;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4070a0;font-weight:bold"></span>    --set<span style="color:#666">=</span><span style="color:#bb60d5">gpgkeypath</span><span style="color:#666">=</span><span style="color:#4070a0">&#34;/etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-38-</span><span style="color:#007020;font-weight:bold">$(</span>uname -m<span style="color:#007020;font-weight:bold">)</span><span style="color:#4070a0">&#34;</span> <span style="color:#4070a0;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4070a0;font-weight:bold"></span>    --set<span style="color:#666">=</span><span style="color:#bb60d5">contenturl</span><span style="color:#666">=</span><span style="color:#bb60d5">mirrorlist</span><span style="color:#666">=</span>https://ostree.fedoraproject.org/mirrorlist<span style="color:#4070a0">&#34;</span></span></span></code></pre></div>
+</div>
+<p>
+Fedora ships with the public keys for the various versions Fedora&#39;s repos.
+Now it&#39;s configured to know the Fedora OSTree remote.</p>
+<p>
+3️⃣. pull the OSTree branch into the repo</p>
+<div class="src src-shell">
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ostree --repo<span style="color:#666">=</span>/ostree/repo pull <span style="color:#4070a0">&#34;fedora:fedora/38/</span><span style="color:#007020;font-weight:bold">$(</span>uname -m<span style="color:#007020;font-weight:bold">)</span><span style="color:#4070a0">/silverblue&#34;</span></span></span></code></pre></div>
+</div>
+<p>
+This one take a while, but will vary depending on internet connection.</p>
+<p>
+4️⃣. Ensure that the directories exist which are required for an OS deploy</p>
+<div class="src src-shell">
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ostree admin os-init fedora</span></span></code></pre></div>
+</div>
+<p>
+Prepares the folders in the root filesystem for OSTree.</p>
+<p>
+5️⃣. Make the branch be live on reboot</p>
+<div class="src src-shell">
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ostree admin deploy --os<span style="color:#666">=</span>fedora --karg-proc-cmdline <span style="color:#4070a0">&#34;fedora:fedora/38/</span><span style="color:#007020;font-weight:bold">$(</span>uname -m<span style="color:#007020;font-weight:bold">)</span><span style="color:#4070a0">/silverblue&#34;</span></span></span></code></pre></div>
+</div>
+<p>
+Similar to <code>git checkout</code>, now the version which was pull earlier is now ready to boot.</p>
+<p>
+6️⃣. Copy across a few important system configs</p>
+<div class="src src-shell">
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">for</span> i in /etc/fstab /etc/default/grub /etc/locale.conf /etc/ostree/remotes.d/fedora.conf; <span style="color:#007020;font-weight:bold">do</span>
+</span></span><span style="display:flex;"><span>      cp <span style="color:#4070a0">&#34;</span><span style="color:#70a0d0">${</span><span style="color:#bb60d5">i</span><span style="color:#70a0d0">}</span><span style="color:#4070a0">&#34;</span> <span style="color:#4070a0">&#34;</span><span style="color:#70a0d0">${</span><span style="color:#bb60d5">OSTREE_DEPLOY_ROOT</span><span style="color:#70a0d0">}</span><span style="color:#4070a0">/</span><span style="color:#70a0d0">${</span><span style="color:#bb60d5">i</span><span style="color:#70a0d0">}</span><span style="color:#4070a0">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">done</span></span></span></code></pre></div>
+</div>
+<p>
+may add some more things here later but this seems to make it work</p>
+<p>
+7️⃣. Remap the mount home folder to the new expected location</p>
+<div class="src src-shell">
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sed -i -e <span style="color:#4070a0">&#39;s, /home , /var/home ,g&#39;</span> <span style="color:#4070a0">&#34;</span><span style="color:#70a0d0">${</span><span style="color:#bb60d5">OSTREE_DEPLOY_ROOT</span><span style="color:#70a0d0">}</span><span style="color:#4070a0">/etc/fstab&#34;</span></span></span></code></pre></div>
+</div>
+<p>
+no place like home!</p>
+<blockquote>
+<p>and… that&#39;s pretty much it!</p>
+</blockquote>
+<p>
+After the script and a reboot, you&#39;ll be put into the emergency shell.
+Just press enter to continue. Not sure why it appears.</p>
+<p>
+Now you&#39;ll be prompted to create a user account. Go ahead with the
+same username as matching in the home folder.</p>
+<p>
+✨ You made it to Silverblue! ✨</p>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-2">
+<h2 id="headline-5">
+🤔 Things to consider
+</h2>
+<div id="outline-text-headline-5" class="outline-text-2">
+<ul>
+<li>
+<p>the previous install of Fedora Workstation is still kinda around and may be used in the boot process</p>
+<ul>
+<li>issue here: <a href="https://github.com/ublue-os/upgrade-tools/issues/7">https://github.com/ublue-os/upgrade-tools/issues/7</a> (UPDATE: yes they are)</li>
+</ul>
+</li>
+<li>
+<p>reaching out to Fedora maintainers at Red Hat for interest, direction and roadmap considerations</p>
+<ul>
+<li>is it on the roadmap to migrate users from Fedora Workstation to Fedora Silverblue or future versions?</li>
+</ul>
+</li>
+</ul>
+<p>There are some uncertainties</p>
+<ul>
+<li>
+<p>are there remaining Fedora Workstation files install on disk? (e.g /usr/bin)</p>
+<ul>
+<li>UPDATE: yes, those files may also be depended on too</li>
+</ul>
+</li>
+<li>why does it prompt for user account creation again?</li>
+<li>non-standard/non-default partition configs</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-2">
+<h2 id="headline-6">
+🚪 That&#39;s all folks!
+</h2>
+<div id="outline-text-headline-6" class="outline-text-2">
+<p>
+Please reach out if this has helped you or if you have any ideas where to take this process!</p>
+<p>
+Inspired by the work of <a href="https://asamalik.fedorapeople.org/fedora-docs-translations/en-US/fedora-silverblue/installation-dual-boot">https://asamalik.fedorapeople.org/fedora-docs-translations/en-US/fedora-silverblue/installation-dual-boot</a></p>
+<p>
+Shout-out to Jorge Castro (<a href="https://github.com/castrojo">https://github.com/castrojo</a>) for interest in furthering the idea and providing a space in the ublue community!</p>
+<p>
+check out how the installer deploys Silverblue here <a href="https://github.com/rhinstaller/anaconda/blob/master/pyanaconda/modules/payloads/payload/rpm_ostree/installation.py">https://github.com/rhinstaller/anaconda/blob/master/pyanaconda/modules/payloads/payload/rpm_ostree/installation.py</a></p>
+</div>
+</div>
+
+    </div>
+  </article>
+  <nav class="back-nav">
+  <a href="/post">← back to posts</a>
+  </nav>
+</section>
+
+        </main>
+        
+<footer>
+  <div class="footer__left">
+  <b class='footer_logo'><a href="/">ii</a></b>
+  </div>
+  <div class='footer__right'>
+  <ul class="contact-details">
+ 
+    <li>   
+      <a href="https://github.com/ii">
+        <div id="github" class="icon">
+            <i class="fab fa-github"></i>
+        </div>
+        Github
+      </a>
+    </li>
+    <li>
+      <a href="https://gitlab.com/ii">
+        <div class="icon">
+          <i class="fab fa-gitlab"></i>
+        </div>
+        Gitlab
+      </a>
+    </li>
+    <li>
+      <a href="mailto:hello@ii.nz">
+        <div class="icon">
+          <i class="fas fa-envelope"></i>
+      </div>
+      Email
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/company/99165471/" target="_blank" rel="noopener noreferrer">
+        <div class="icon">
+          <i class="fab fa-linkedin"></i>
+        </div>
+        LinkedIn
+      </a>
+    </li>
+    
+  </ul>
+</footer>
+    </body>
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Teams on ii</title>
+    <link>http://localhost:1313/team/</link>
+    <description>Recent content in Teams on ii</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://localhost:1313/team/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Abby Crimlis</title>
+      <link>http://localhost:1313/team/abby-crimlis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/team/abby-crimlis/</guid>
+      <description>Abby serves as a Cloud Native Technical Engineer and Educational Outreach Specialist at ii, seamlessly blending technical expertise with educational outreach. With a passion for fostering learning across diverse age groups, she designs and implements innovative programs, gets involved in engaging events, and collaborates with local organizations throughout the Bay of Plenty region</description>
+    </item>
+    <item>
+      <title>Berno Kleinhans</title>
+      <link>http://localhost:1313/team/berno-kleinhans/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/team/berno-kleinhans/</guid>
+      <description>The first member of the ii groupies club. Striving for impactful change in the world through relationships and opensource collaboration.</description>
+    </item>
+    <item>
+      <title>Brenda Peel</title>
+      <link>http://localhost:1313/team/brenda-peel/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/team/brenda-peel/</guid>
+      <description>If you&amp;#39;d like to get in touch with ii, Brenda is your first point of contact.&#xA;At ii, Brenda Peel seamlessly manages and coordinates all things from start to finish. There is nothing too big for Brenda to conquer. And she does it all with a smile.&#xA;Before moving to New Zealand with her husband and two dogs, Brenda worked as a Publisher Relationship Manager and Digital Project Coordinator in Cape Town, South Africa.</description>
+    </item>
+    <item>
+      <title>Caleb Woodbine</title>
+      <link>http://localhost:1313/team/caleb-woodbine/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/team/caleb-woodbine/</guid>
+      <description>Caleb is a software engineer at ii. Driven by community, he loves the collaboration of individuals - especially through Open Source. Caleb contributes to the Kubernetes Infrastructure working group, sig-testing, and the conformance working group. Caleb also spends way too much time with container technologies and Golang.</description>
+    </item>
+    <item>
+      <title>Hippie Hacker</title>
+      <link>http://localhost:1313/team/hippie-hacker/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/team/hippie-hacker/</guid>
+      <description>Chris McClimans is first and foremost a visionary. Chris envisions a world where everyone shares their knowledge base as well as their skills and resources. In our world of tech, this happens through open source.</description>
+    </item>
+    <item>
+      <title>Jay Tihema</title>
+      <link>http://localhost:1313/team/jay-tihema/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/team/jay-tihema/</guid>
+      <description>Jay is awesome!</description>
+    </item>
+    <item>
+      <title>Riaan Kleinhans</title>
+      <link>http://localhost:1313/team/riaan-kleinhans/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/team/riaan-kleinhans/</guid>
+      <description>Riaan Kleinhans is the Project manager at ii. Helping a team of talented people to focus on what they do best. Keeping the team organized and on target.</description>
+    </item>
+    <item>
+      <title>Stephen Heywood</title>
+      <link>http://localhost:1313/team/stephen-heywood/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/team/stephen-heywood/</guid>
+      <description>Stephen Heywood is a cloud-native advocate that brings together 20 years of exploring open source technologies with an extensive set of skills from various industries.&#xA;From tertiary education (12 years); corporate IT (5 years) and the electricity sector (8 years), each has provided him with a wealth of information and a long history of industry certifications.&#xA;To unwind, Stephen enjoys an eclectic range of hobbies, from architecture, podcasts, movies while learning about different programming languages.</description>
+    </item>
+    <item>
+      <title>Zach Mandeville</title>
+      <link>http://localhost:1313/team/zach-mandeville/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/team/zach-mandeville/</guid>
+      <description>Zach is a software engineer at ii. He loves sharing the excitement and awesome potential of technology through his work, storytelling, and mad science projects.</description>
+    </item>
+  </channel>
+</rss>
