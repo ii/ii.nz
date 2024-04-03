@@ -1,6 +1,6 @@
 #+title: Homepage
 #+image: /assets/ii-logo-new.png
-#+bg_image: /assets/banner-opt.jpg
+#+bg_image: /assets/grasseffect-bg.png
 #+image_alt_text: "the ii logo, bright yellow, filled with cartoon versions of software mascots from the various free software we use in our work."
 #+exclude_footer: true
 

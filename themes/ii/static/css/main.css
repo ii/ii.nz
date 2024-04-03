@@ -495,7 +495,7 @@ a.project-link:hover {
   left:0;
   height:100%;
   z-index: -20;
-  opacity: 0.1;
+  opacity: 0.3;
   filter: brightness(30%);
   filter: grayscale(100%);
 }
@@ -793,6 +793,8 @@ a {
   .flex-row_outer {
     flex-direction: column;
     align-items: center;
+    margin-top:0px;
+    margin-right:0px;
   }
 
   .flex-row,
