@@ -1,12 +1,10 @@
 {{ define "main" }}
 <div class="overflow">
 <div id="particles-js"></div>
-<div id="home-banner">
-  <img src={{ .Params.bg_image }} />
-</div>
+
 <div class="center-column">
 <figure class="splash-image">
-  <img src={{ .Params.Image }}
+  <img src="{{ .Params.Image }}"
        alt="{{ .Params.Image_Alt_Text }}"
   />
 </figure>

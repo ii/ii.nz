@@ -15,16 +15,10 @@
         {{ range $index, $page := sort $techPages "Params.priority" "asc"}}
           <li class="projects-item">
             <h3>{{ .Title }}</h3>
-            <div class='{{ .Title }} project-img' data-text="{{ .Content | emojify }}">
-              <img src="{{ .Params.Image }}" />
+            <div class="{{ .Title }} project-img" data-title=" {{ .Title | emojify}}" data-text="{{ .Content | emojify }}">
+              <img src={{ .Params.Image }} />
             </div>
-            <div class="modal" id="modal">
-              <div class="modal-content" id="modal-content">
-                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
-                <button class="close-btn" id="close-btn">Close</button>
-                <p id="modal-text"></p>
-              </div>
-            </div>
+            
           </li>
           {{ if and (eq (mod (add $index 1) 2) 0) (ne $index (sub (len $techPages) 1)) }}
             </ul>
@@ -48,16 +42,10 @@
         {{ range $index, $page := sort $eduPages "Params.priority" "asc"}}
           <li class="projects-item">
             <h3>{{ .Title }}</h3>
-            <div class="{{ .Title }} project-img" data-text="{{ .Content | emojify }}">
-              <img src="{{ .Params.Image }}" />
+            <div class="{{ .Title }} project-img" data-title=" {{ .Title | emojify}}" data-text="{{ .Content | emojify }}">
+              <img src={{ .Params.Image }} />
             </div>
-            <div class="modal" id="modal">
-              <div class="modal-content" id="modal-content">
-                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
-                <button class="close-btn" id="close-btn">Close</button>
-                <p id="modal-text"></p>
-              </div>
-            </div>
+           
           </li>
           {{ if and (eq (mod (add $index 1) 2) 0) (ne $index (sub (len $eduPages) 1)) }}
             </ul>
@@ -66,7 +54,14 @@
         {{ end }}
       </ul>
       <h2 class="centered-section">Educational Contribution</h2>
-
+      <div class="modal" id="modal">
+        <div class="modal-content" id="modal-content">
+          <h3 id="modal-title"></h3>
+          <p id="modal-text"></p>
+          <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
+          <button class="close-btn" id="close-btn">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -77,16 +72,31 @@
       var projectImg = document.querySelector(`.${projectName}`);
       var modal = document.getElementById('modal');
       var modalText = document.getElementById('modal-text');
+      var modalTitle = document.getElementById('modal-title');
       var learnMoreBtn = document.getElementById('learn-more-btn');
       var closeBtn = document.getElementById('close-btn');
 
       projectImg.addEventListener('click', function () {
         var dataText = projectImg.getAttribute('data-text');
         modalText.textContent = dataText;
-
-        learnMoreBtn.addEventListener('click', function () {
-          window.location.href = learnMoreLink;
+        modalTitle.textContent = projectImg.getAttribute('data-title')
+        if(learnMoreLink === ''){
+          learnMoreBtn.style.opacity = "0.5";
+          learnMoreBtn.style.cursor = "not-allowed";
+          learnMoreBtn.disabled = true; 
+        }else{
+          learnMoreBtn.style.opacity = "1"; 
+          learnMoreBtn.style.cursor = "pointer";
+          learnMoreBtn.disabled = false;
+        }
+          learnMoreBtn.addEventListener('click', function () {
+          let a= document.createElement('a');
+          a.target= '_blank';
+          a.href= learnMoreLink;
+          a.click();
         });
+        
+       
 
         modal.style.display = 'flex';
       });
@@ -102,14 +112,14 @@
       });
     }
 
-    setupModal('Apisnoop', 'https://apisnoop.cncf.io');
-    setupModal('Ublue', 'fedora');
+    setupModal('APISnoop', 'https://apisnoop.cncf.io');
+    setupModal('Coop', 'https://ii.coop');
     setupModal('Conformance', 'https://www.cncf.io/training/certification/software-conformance/');
     setupModal('Infra', 'https://kubernetes.io/blog/2020/05/27/an-introduction-to-the-k8s-infrastructure-working-group/');
-    setupModal('Events', ''); //gallery 
-    setupModal('Mentoring', ''); //contact us page maybe
-    setupModal('Resource', ''); //link to github repo for bootcamp content
-    setupModal('Educational', ''); //contact us or repo 
+    setupModal('Events', '');
+    setupModal('Mentoring', '');
+    setupModal('Resource', '');
+    setupModal('Educational', '');
 
   });
 </script>

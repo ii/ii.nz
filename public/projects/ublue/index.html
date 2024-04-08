@@ -38,7 +38,6 @@
     </header>
   
     <script>
-      
       function checkDarkMode() {
         var storedMode = localStorage.getItem('darkMode');
         if (storedMode === 'enabled') {
@@ -49,7 +48,6 @@
       function toggleIcon() {
         var iconElement = document.getElementById('toggleMode');
      
-        
         if (iconElement.classList.contains('fa-moon')) {
           applyDarkMode();
           localStorage.setItem('darkMode', 'enabled');
@@ -59,7 +57,6 @@
         }
       }
   
-      
       function applyDarkMode() {
         var iconElement = document.getElementById('toggleMode');
         var bg = document.getElementById("content");
@@ -86,10 +83,9 @@
         for(var i = 0; i < modals.length; i++){
             modals[i].classList.add('modal-dark');
         }
-        logoImage.src = "\/assets\/dark-mode-logo.png";
+        logoImage.src = `\/assets\/dark-mode-logo.png`;
       }
   
-      
       function removeDarkMode() {
         var iconElement = document.getElementById('toggleMode');
         var bg = document.getElementById("content");
@@ -106,7 +102,7 @@
         bg.classList.remove('bg-dark');
         header.classList.remove('header-dark');
         navbarRight.classList.remove("navbar__right--dark");
-        logoImage.src = "\/assets\/nav-logo.png";
+        logoImage.src = `\/assets\/nav-logo.png`;
   
         for (var i = 0; i < headings.length; i++) {
           headings[i].style.color = '';
@@ -125,7 +121,7 @@
         <main id="content">
 <section class="section">
   <article>
-          <h1 class="blog__title">Ublue</h1>
+          <h1 class="blog__title">Coop Mode</h1>
             <div class="blog__details">
               </div>
               <div class="blog__info">
@@ -142,7 +138,7 @@
             </div>
           <div class="content">
             <p>
-This is an experiment with our something or other to do cool stuff</p>
+Cloud based solution to help people be in the same space, on the same page. </p>
 
           </div>
   </article>  

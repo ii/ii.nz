@@ -39,7 +39,6 @@
     </header>
   
     <script>
-      
       function checkDarkMode() {
         var storedMode = localStorage.getItem('darkMode');
         if (storedMode === 'enabled') {
@@ -50,7 +49,6 @@
       function toggleIcon() {
         var iconElement = document.getElementById('toggleMode');
      
-        
         if (iconElement.classList.contains('fa-moon')) {
           applyDarkMode();
           localStorage.setItem('darkMode', 'enabled');
@@ -60,7 +58,6 @@
         }
       }
   
-      
       function applyDarkMode() {
         var iconElement = document.getElementById('toggleMode');
         var bg = document.getElementById("content");
@@ -87,10 +84,9 @@
         for(var i = 0; i < modals.length; i++){
             modals[i].classList.add('modal-dark');
         }
-        logoImage.src = "\/assets\/dark-mode-logo.png";
+        logoImage.src = `\/assets\/dark-mode-logo.png`;
       }
   
-      
       function removeDarkMode() {
         var iconElement = document.getElementById('toggleMode');
         var bg = document.getElementById("content");
@@ -107,7 +103,7 @@
         bg.classList.remove('bg-dark');
         header.classList.remove('header-dark');
         navbarRight.classList.remove("navbar__right--dark");
-        logoImage.src = "\/assets\/nav-logo.png";
+        logoImage.src = `\/assets\/nav-logo.png`;
   
         for (var i = 0; i < headings.length; i++) {
           headings[i].style.color = '';
@@ -126,12 +122,10 @@
         <main id="content">
 <div class="overflow">
 <div id="particles-js"></div>
-<div id="home-banner">
-  <img src=/assets/grasseffect-bg.png />
-</div>
+
 <div class="center-column">
 <figure class="splash-image">
-  <img src=/assets/ii-logo-new.png
+  <img src="/assets/ii-fresh.png"
        alt="&#34;the ii logo, bright yellow, filled with cartoon versions of software mascots from the various free software we use in our work.&#34;"
   />
 </figure>
@@ -145,10 +139,9 @@
 Hello!
 </h4>
 <div id="outline-text-headline-1" class="outline-text-4">
-<p>We are a tech company based in Aotearoa New Zealand. We develop and consult on
-open-source, cloud-based solutions that focus on collaboration. Specialising in
-cloud-native technology like Kubernetes, Talos, Knative, and more, our goal is
-to contribute to community growth and wellbeing through service and technology.</p>
+<p>We&#39;re a tech company based in Aotearoa New Zealand. We develop and consult on open-source, cloud-based solutions and educational pathways that focus on collaboration.   </p>
+<p>
+Specialising in education outreach and cloud-native technology such as Kubernetes, Talos, Knative, and more, we contribute to local and global community growth and wellbeing through service and technology.</p>
 <p>
 Check out <a href="/projects/">the projects</a> we work on, meet our <a href="/team">team</a>, read our <a href="/post/">blog</a>, or
 <a href="mailto:hello@ii.coop">say hello</a>!</p>

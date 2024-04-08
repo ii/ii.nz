@@ -1,7 +1,7 @@
 #+title: Mentoring
 #+started: 2018
 #+status: active
-#+priority: 2
+#+priority: 1
 #+externalUrl: 
 #+type: edu
 #+image: /assets/Expo23-4.jpg

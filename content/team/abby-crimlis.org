@@ -3,4 +3,8 @@
 #+active: true
 
 
-Abby serves as a Cloud Native Technical Engineer and Educational Outreach Specialist at ii, seamlessly blending technical expertise with educational outreach. With a passion for fostering learning across diverse age groups, she designs and implements innovative programs, gets involved in engaging events, and collaborates with local organizations throughout the Bay of Plenty region
+Abby serves as a Cloud Native Technical Engineer and Educational Outreach Specialist at ii.
+
+She blends technical expertise with educational outreach. 
+
+With a passion for fostering curiosity and self-confidence across diverse age groups, she designs and implements innovative programs, gets involved in engaging events, and collaborates with local organisations throughout the Bay of Plenty region

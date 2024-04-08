@@ -94,6 +94,8 @@
   </url><url>
     <loc>http://localhost:1313/team/caleb-woodbine/</loc>
   </url><url>
+    <loc>http://localhost:1313/projects/ublue/</loc>
+  </url><url>
     <loc>http://localhost:1313/projects/education/</loc>
   </url><url>
     <loc>http://localhost:1313/projects/events/</loc>
@@ -119,8 +121,6 @@
     <loc>http://localhost:1313/team/stephen-heywood/</loc>
   </url><url>
     <loc>http://localhost:1313/team/</loc>
-  </url><url>
-    <loc>http://localhost:1313/projects/ublue/</loc>
   </url><url>
     <loc>http://localhost:1313/team/zach-mandeville/</loc>
   </url>

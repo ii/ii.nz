@@ -38,7 +38,6 @@
     </header>
   
     <script>
-      
       function checkDarkMode() {
         var storedMode = localStorage.getItem('darkMode');
         if (storedMode === 'enabled') {
@@ -49,7 +48,6 @@
       function toggleIcon() {
         var iconElement = document.getElementById('toggleMode');
      
-        
         if (iconElement.classList.contains('fa-moon')) {
           applyDarkMode();
           localStorage.setItem('darkMode', 'enabled');
@@ -59,7 +57,6 @@
         }
       }
   
-      
       function applyDarkMode() {
         var iconElement = document.getElementById('toggleMode');
         var bg = document.getElementById("content");
@@ -86,10 +83,9 @@
         for(var i = 0; i < modals.length; i++){
             modals[i].classList.add('modal-dark');
         }
-        logoImage.src = "\/assets\/dark-mode-logo.png";
+        logoImage.src = `\/assets\/dark-mode-logo.png`;
       }
   
-      
       function removeDarkMode() {
         var iconElement = document.getElementById('toggleMode');
         var bg = document.getElementById("content");
@@ -106,7 +102,7 @@
         bg.classList.remove('bg-dark');
         header.classList.remove('header-dark');
         navbarRight.classList.remove("navbar__right--dark");
-        logoImage.src = "\/assets\/nav-logo.png";
+        logoImage.src = `\/assets\/nav-logo.png`;
   
         for (var i = 0; i < headings.length; i++) {
           headings[i].style.color = '';
@@ -128,7 +124,8 @@
   <h1 class="section-title">Our Projects</h1>
 
   <div class="intro center-column">
-    <p>Our team is involved in many different tech and community projects, both in
+    <p>
+Our team is involved in many different tech and community projects, both in
 Aotearoa New Zealand and global communities. Here are some of the
 projects we are involved in.</p>
 
@@ -141,40 +138,28 @@ projects we are involved in.</p>
         
         
           <li class="projects-item">
-            <h3>Ublue</h3>
-            <div class='Ublue project-img' data-text="
-This is an experiment with our something or other to do cool stuff
+            <h3>Coop Mode</h3>
+            <div class="Coop Mode project-img" data-title=" Coop Mode" data-text="
+Cloud based solution to help people be in the same space, on the same page. 
 ">
-              <img src="/assets/bootable.jpg" />
+              <img src=/assets/bootable.jpg />
             </div>
-            <div class="modal" id="modal">
-              <div class="modal-content" id="modal-content">
-                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
-                <button class="close-btn" id="close-btn">Close</button>
-                <p id="modal-text"></p>
-              </div>
-            </div>
+            
           </li>
           
         
           <li class="projects-item">
             <h3>Kubernetes Conformance</h3>
-            <div class='Kubernetes Conformance project-img' data-text="We work with the CNCF to help ensure consistent features for Kubernetes across
+            <div class="Kubernetes Conformance project-img" data-title=" Kubernetes Conformance" data-text="We work with the CNCF to help ensure consistent features for Kubernetes across
 vendor offerings and open source implementations. Our work includes tracking
 conformance progress with audit log analysis, gitops bots that verify
-conformance submissions, writing tests to increae conformance coverage, and
-release-informaing bots that help ensure no new Kubernetes endpoints are added without
+conformance submissions, writing tests to increase conformance coverage, and
+release-informing bots that help ensure no new Kubernetes endpoints are added without
 tests.
 ">
-              <img src="/assets/k8s.svg" />
+              <img src=/assets/k8s.svg />
             </div>
-            <div class="modal" id="modal">
-              <div class="modal-content" id="modal-content">
-                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
-                <button class="close-btn" id="close-btn">Close</button>
-                <p id="modal-text"></p>
-              </div>
-            </div>
+            
           </li>
           
             </ul>
@@ -182,40 +167,28 @@ tests.
           
         
           <li class="projects-item">
-            <h3>Apisnoop</h3>
-            <div class='Apisnoop project-img' data-text="
+            <h3>APISnoop</h3>
+            <div class="APISnoop project-img" data-title=" APISnoop" data-text="
 APISnoop is a site that tracks the progress of the Kubernetes conformance
-project by analyzing the audit logs from end-to-end test runs, to see how many
+project by analysing the audit logs from end-to-end test runs, to see how many
 conformant endpoints are hit by conformance tests. Our team used postgres and
 svelte to build APISnoop, and the site is used by the larger Kubernetes community to set priorities for conformance work and reduce the creation of technical debt.
 ">
-              <img src="/assets/apisnoop.png" />
+              <img src=/assets/apisnoop.png />
             </div>
-            <div class="modal" id="modal">
-              <div class="modal-content" id="modal-content">
-                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
-                <button class="close-btn" id="close-btn">Close</button>
-                <p id="modal-text"></p>
-              </div>
-            </div>
+            
           </li>
           
         
           <li class="projects-item">
             <h3>Kubernetes Infra</h3>
-            <div class='Kubernetes Infra project-img' data-text="Our team works regularly with the kubernetes infra working group, to help
+            <div class="Kubernetes Infra project-img" data-title=" Kubernetes Infra" data-text="Our team works regularly with the Kubernetes infra working group, to help
 distribute the infrastructural load of the Kubernetes project across multiple community providers to help
-ensure the long-term sustainabality of kubernetes development.
+ensure the long-term sustainability of Kubernetes development.
 ">
-              <img src="/assets/stephen-testing.jpg" />
+              <img src=/assets/stephen-testing.jpg />
             </div>
-            <div class="modal" id="modal">
-              <div class="modal-content" id="modal-content">
-                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
-                <button class="close-btn" id="close-btn">Close</button>
-                <p id="modal-text"></p>
-              </div>
-            </div>
+            
           </li>
           
         
@@ -226,7 +199,7 @@ ensure the long-term sustainabality of kubernetes development.
 
     
     <div class="logo">
-      <img src="/assets/ii-logo-new.png" />
+      <img src="/assets/ii-fresh.png" />
     </div>
 
     
@@ -236,35 +209,23 @@ ensure the long-term sustainabality of kubernetes development.
         
           <li class="projects-item">
             <h3>Educational Outreach</h3>
-            <div class="Educational Outreach project-img" data-text="
+            <div class="Educational Outreach project-img" data-title=" Educational Outreach" data-text="
 In collaboration with select education providers and youth programs, we curate custom workshops, programmes and bootcamps to spark curiosity and foster interest in open source.
 ">
-              <img src="/assets/IMG_0162.jpg" />
+              <img src=/assets/IMG_0162.jpg />
             </div>
-            <div class="modal" id="modal">
-              <div class="modal-content" id="modal-content">
-                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
-                <button class="close-btn" id="close-btn">Close</button>
-                <p id="modal-text"></p>
-              </div>
-            </div>
+           
           </li>
           
         
           <li class="projects-item">
-            <h3>Resource Development</h3>
-            <div class="Resource Development project-img" data-text="
-&#34;The right tools are the bridge between curiosity and knowledge.&#34; (Anon), which is why ii designs a range of learning tools and strategies to help make sense of the world of tech!
+            <h3>Mentoring</h3>
+            <div class="Mentoring project-img" data-title=" Mentoring" data-text="
+We&#39;re passionate about empowering the next generation of technologists, servant and community leaders, innovators and disruptors through dedicated mentoring.
 ">
-              <img src="/assets/resource.jpg" />
+              <img src=/assets/Expo23-4.jpg />
             </div>
-            <div class="modal" id="modal">
-              <div class="modal-content" id="modal-content">
-                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
-                <button class="close-btn" id="close-btn">Close</button>
-                <p id="modal-text"></p>
-              </div>
-            </div>
+           
           </li>
           
             </ul>
@@ -272,42 +233,37 @@ In collaboration with select education providers and youth programs, we curate c
           
         
           <li class="projects-item">
-            <h3>Mentoring</h3>
-            <div class="Mentoring project-img" data-text="
-We&#39;re passionate about empowering the next generation of technologists, servant and community leaders, innovators and disruptors through dedicated mentoring.
+            <h3>Resource Development</h3>
+            <div class="Resource Development project-img" data-title=" Resource Development" data-text="
+&#34;The right tools are the bridge between curiosity and knowledge.&#34; (Anon), which is why ii designs a range of learning tools and strategies to help make sense of the world of tech!
 ">
-              <img src="/assets/Expo23-4.jpg" />
+              <img src=/assets/resource.jpg />
             </div>
-            <div class="modal" id="modal">
-              <div class="modal-content" id="modal-content">
-                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
-                <button class="close-btn" id="close-btn">Close</button>
-                <p id="modal-text"></p>
-              </div>
-            </div>
+           
           </li>
           
         
           <li class="projects-item">
             <h3>Events</h3>
-            <div class="Events project-img" data-text="
+            <div class="Events project-img" data-title=" Events" data-text="
 ii regularly runs, supports or participates in events across the globe to promote opportunities in Open Source - career expos, conferences, Meetups, information sessions and industry site tours to name a few!
 ">
-              <img src="/assets/shadowTech1.jpg" />
+              <img src=/assets/shadowTech1.jpg />
             </div>
-            <div class="modal" id="modal">
-              <div class="modal-content" id="modal-content">
-                <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
-                <button class="close-btn" id="close-btn">Close</button>
-                <p id="modal-text"></p>
-              </div>
-            </div>
+           
           </li>
           
         
       </ul>
       <h2 class="centered-section">Educational Contribution</h2>
-
+      <div class="modal" id="modal">
+        <div class="modal-content" id="modal-content">
+          <h3 id="modal-title"></h3>
+          <p id="modal-text"></p>
+          <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
+          <button class="close-btn" id="close-btn">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -318,16 +274,31 @@ ii regularly runs, supports or participates in events across the globe to promot
       var projectImg = document.querySelector(`.${projectName}`);
       var modal = document.getElementById('modal');
       var modalText = document.getElementById('modal-text');
+      var modalTitle = document.getElementById('modal-title');
       var learnMoreBtn = document.getElementById('learn-more-btn');
       var closeBtn = document.getElementById('close-btn');
 
       projectImg.addEventListener('click', function () {
         var dataText = projectImg.getAttribute('data-text');
         modalText.textContent = dataText;
-
-        learnMoreBtn.addEventListener('click', function () {
-          window.location.href = learnMoreLink;
+        modalTitle.textContent = projectImg.getAttribute('data-title')
+        if(learnMoreLink === ''){
+          learnMoreBtn.style.opacity = "0.5";
+          learnMoreBtn.style.cursor = "not-allowed";
+          learnMoreBtn.disabled = true; 
+        }else{
+          learnMoreBtn.style.opacity = "1"; 
+          learnMoreBtn.style.cursor = "pointer";
+          learnMoreBtn.disabled = false;
+        }
+          learnMoreBtn.addEventListener('click', function () {
+          let a= document.createElement('a');
+          a.target= '_blank';
+          a.href= learnMoreLink;
+          a.click();
         });
+        
+       
 
         modal.style.display = 'flex';
       });
@@ -343,14 +314,14 @@ ii regularly runs, supports or participates in events across the globe to promot
       });
     }
 
-    setupModal('Apisnoop', 'https://apisnoop.cncf.io');
-    setupModal('Ublue', 'fedora');
+    setupModal('APISnoop', 'https://apisnoop.cncf.io');
+    setupModal('Coop', 'https://ii.coop');
     setupModal('Conformance', 'https://www.cncf.io/training/certification/software-conformance/');
     setupModal('Infra', 'https://kubernetes.io/blog/2020/05/27/an-introduction-to-the-k8s-infrastructure-working-group/');
-    setupModal('Events', ''); 
-    setupModal('Mentoring', ''); 
-    setupModal('Resource', ''); 
-    setupModal('Educational', ''); 
+    setupModal('Events', '');
+    setupModal('Mentoring', '');
+    setupModal('Resource', '');
+    setupModal('Educational', '');
 
   });
 </script>
