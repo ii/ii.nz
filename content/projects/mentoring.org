@@ -1,0 +1,9 @@
+#+title: Mentoring
+#+started: 2018
+#+status: active
+#+priority: 1
+#+externalUrl: 
+#+type: edu
+#+image: /assets/Expo23-4.jpg
+
+We're passionate about empowering the next generation of technologists, servant and community leaders, innovators and disruptors through dedicated mentoring.

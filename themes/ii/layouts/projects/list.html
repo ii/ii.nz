@@ -4,20 +4,120 @@
   <h1 class="section-title">{{ .Title }}</h1>
 
   <div class="intro center-column">
-  {{ .Content | emojify }}
+    {{ .Content | emojify }}
   </div>
-  <ul class="project-list">
-    {{ range sort (where .Pages "Params.status" "eq" "active") "Params.priority" "asc"}}
-    <li class="project-item">
-      <b class="project-name">{{ .Title }}</b>
-      <div class="project-description">
-        {{ .Content | emojify }}
-        {{ .Params.url }}
-      <a class="project-link" href="{{ .Params.externalUrl | safeURL }}">
-        Learn more</a>
+
+  <div class="flex-row_outer ">
+    <!-- Technical Content -->
+    <div class="left-column">
+      <ul class="projects-list flex-row">
+        {{ $techPages := where .Pages "Params.type" "==" "tech" }}
+        {{ range $index, $page := sort $techPages "Params.priority" "asc"}}
+          <li class="projects-item">
+            <h3>{{ .Title }}</h3>
+            <div class="{{ .Title }} project-img" data-title=" {{ .Title | emojify}}" data-text="{{ .Content | emojify }}">
+              <img src={{ .Params.Image }} />
+            </div>
+            
+          </li>
+          {{ if and (eq (mod (add $index 1) 2) 0) (ne $index (sub (len $techPages) 1)) }}
+            </ul>
+            <ul class="projects-list flex-row">
+          {{ end }}
+        {{ end }}
+      </ul>
+      <h2 class="centered-section">Technical Contribution</h2>
+
+    </div>
+
+    <!-- Logo -->
+    <div class="logo">
+      <img src="{{ .Params.Logo }}" />
+    </div>
+
+    <!-- Educational Content -->
+    <div class="right-column">
+      <ul class="projects-list flex-row">
+        {{ $eduPages := where .Pages "Params.type" "eq" "edu" }}
+        {{ range $index, $page := sort $eduPages "Params.priority" "asc"}}
+          <li class="projects-item">
+            <h3>{{ .Title }}</h3>
+            <div class="{{ .Title }} project-img" data-title=" {{ .Title | emojify}}" data-text="{{ .Content | emojify }}">
+              <img src={{ .Params.Image }} />
+            </div>
+           
+          </li>
+          {{ if and (eq (mod (add $index 1) 2) 0) (ne $index (sub (len $eduPages) 1)) }}
+            </ul>
+            <ul class="projects-list flex-row">
+          {{ end }}
+        {{ end }}
+      </ul>
+      <h2 class="centered-section">Educational Contribution</h2>
+      <div class="modal" id="modal">
+        <div class="modal-content" id="modal-content">
+          <h3 id="modal-title"></h3>
+          <p id="modal-text"></p>
+          <button class="learn-more-btn" id="learn-more-btn">Learn More</button>
+          <button class="close-btn" id="close-btn">Close</button>
+        </div>
       </div>
-    </li>
-  {{ end }}
-  </ul>
+    </div>
+  </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    function setupModal(projectName, learnMoreLink) {
+      var projectImg = document.querySelector(`.${projectName}`);
+      var modal = document.getElementById('modal');
+      var modalText = document.getElementById('modal-text');
+      var modalTitle = document.getElementById('modal-title');
+      var learnMoreBtn = document.getElementById('learn-more-btn');
+      var closeBtn = document.getElementById('close-btn');
+
+      projectImg.addEventListener('click', function () {
+        var dataText = projectImg.getAttribute('data-text');
+        modalText.textContent = dataText;
+        modalTitle.textContent = projectImg.getAttribute('data-title')
+        if(learnMoreLink === ''){
+          learnMoreBtn.style.opacity = "0.5";
+          learnMoreBtn.style.cursor = "not-allowed";
+          learnMoreBtn.disabled = true; 
+        }else{
+          learnMoreBtn.style.opacity = "1"; 
+          learnMoreBtn.style.cursor = "pointer";
+          learnMoreBtn.disabled = false;
+        }
+
+          learnMoreBtn.addEventListener('click', function () {
+            window.open(learnMoreLink);      
+        });
+        
+        modal.style.display = 'flex';
+      });
+
+      closeBtn.addEventListener('click', function () {
+        modal.style.display = 'none';
+      });
+
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    }
+
+    setupModal('APISnoop', 'https://apisnoop.cncf.io');
+    setupModal('Coop', 'https://ii.coop');
+    setupModal('Conformance', 'https://www.cncf.io/training/certification/software-conformance/');
+    setupModal('Infra', 'https://kubernetes.io/blog/2020/05/27/an-introduction-to-the-k8s-infrastructure-working-group/');
+    setupModal('Events', '');
+    setupModal('Mentoring', '');
+    setupModal('Resource', '');
+    setupModal('Educational', '');
+
+  });
+</script>
+
 {{ end }}

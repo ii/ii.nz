@@ -3,10 +3,11 @@
 #+status: active
 #+priority: 1
 #+externalUrl: https://www.cncf.io/training/certification/software-conformance/
-
+#+type: tech
+#+image: /assets/k8s.svg
 We work with the [[https://cncf.io][CNCF]] to help ensure consistent features for Kubernetes across
 vendor offerings and open source implementations. Our work includes tracking
 conformance progress with audit log analysis, gitops bots that verify
-conformance submissions, writing tests to increae conformance coverage, and
-release-informaing bots that help ensure no new Kubernetes endpoints are added without
+conformance submissions, writing tests to increase conformance coverage, and
+release-informing bots that help ensure no new Kubernetes endpoints are added without
 tests.

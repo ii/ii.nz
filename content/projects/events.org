@@ -1,0 +1,9 @@
+#+title: Events
+#+started: 2018
+#+status: active
+#+priority: 2
+#+externalUrl: 
+#+type: edu
+#+image: /assets/shadowTech1.jpg
+
+**ii** regularly runs, supports or participates in events across the globe to promote opportunities in Open Source - career expos, conferences, Meetups, information sessions and industry site tours to name a few!

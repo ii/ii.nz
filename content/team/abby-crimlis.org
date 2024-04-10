@@ -1,5 +1,10 @@
 #+title: Abby Crimlis
-#+photo: /assets/ii-fresh.png
+#+photo: /images/profiles/abby.jpeg
 #+active: true
 
-Abby is great and an awesome member of the team!
+
+Abby serves as a Cloud Native Technical Engineer and Educational Outreach Specialist at ii.
+
+She blends technical expertise with educational outreach. 
+
+With a passion for fostering curiosity and self-confidence across diverse age groups, she designs and implements innovative programs, gets involved in engaging events, and collaborates with local organisations throughout the Bay of Plenty region

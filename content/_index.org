@@ -1,16 +1,18 @@
 #+title: Homepage
 #+image: /assets/ii-fresh.png
+#+bg_image: /assets/grasseffect-bg.png
 #+image_alt_text: "the ii logo, bright yellow, filled with cartoon versions of software mascots from the various free software we use in our work."
 #+exclude_footer: true
 
-* Hello!
-We are a tech company based in Aotearoa New Zealand. We develop and consult on
-open-source, cloud-based solutions that focus on collaboration. Specializing in
-cloud-native technology like Kubernetes, Talos, Knative, and more, our goal is
-to contribute to community growth and wellbeing through service and technology.
+
+
+*** Hello!
+We're a tech company based in Aotearoa New Zealand. We develop and consult on open-source, cloud-based solutions and educational pathways that focus on collaboration.   
+
+Specialising in education outreach and cloud-native technology such as Kubernetes, Talos, Knative, and more, we contribute to local and global community growth and wellbeing through service and technology.
 
 Check out [[/projects/][the projects]] we work on, meet our [[/team][team]], read our [[/post/][blog]], or
 [[mailto:hello@ii.coop][say hello]]!
 
 
-**Let's pair!**
+*** Let's pair!
