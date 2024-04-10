@@ -89,15 +89,11 @@
           learnMoreBtn.style.cursor = "pointer";
           learnMoreBtn.disabled = false;
         }
+
           learnMoreBtn.addEventListener('click', function () {
-          let a= document.createElement('a');
-          a.target= '_blank';
-          a.href= learnMoreLink;
-          a.click();
+            window.open(learnMoreLink);      
         });
         
-       
-
         modal.style.display = 'flex';
       });
 
