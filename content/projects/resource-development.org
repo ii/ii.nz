@@ -1,0 +1,9 @@
+#+title: Resource Development
+#+started: 2018
+#+status: active
+#+priority: 1
+#+elink: 
+#+type: edu
+#+image: /assets/resource.jpg
+
+"The right tools are the bridge between curiosity and knowledge." (Anon), which is why **ii** designs a range of learning tools and strategies to help make sense of the world of tech!

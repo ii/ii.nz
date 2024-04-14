@@ -347,3 +347,10 @@ template {
 [hidden] {
   display: none;
 }
+
+/**
+  * Remove styling from li items by default 
+  */
+li{
+  list-style-type: none;
+}

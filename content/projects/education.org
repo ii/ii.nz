@@ -1,0 +1,9 @@
+#+title: Educational Outreach
+#+started: 2023
+#+status: active
+#+priority: 1
+#+elink: 
+#+type: edu
+#+image: /assets/IMG_0162.jpg
+
+In collaboration with select education providers and youth programs, we curate custom workshops, programmes and bootcamps to spark curiosity and foster interest in open source.
