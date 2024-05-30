@@ -3,6 +3,10 @@ on:
     branches:
       - main
   workflow_dispatch: {}
+permissions:
+  id-token: write
+  contents: write
+  packages: write
 jobs:
   push-to-balena-cloud:
     runs-on: ubuntu-latest
@@ -29,3 +33,24 @@ jobs:
         if: ${{ always() }}
         run: |
           rm -rfv .balena-key
+  publish-to-ghcr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
+      - id: run-info
+        name: collect job run info
+        env:
+          CONTAINER_REPO: ghcr.io/${{ github.repository }}
+        run: |
+          echo "container-repo=${CONTAINER_REPO,,}" >> $GITHUB_OUTPUT
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+      - uses: sigstore/cosign-installer@11086d25041f77fe8fe7b9ea4e48e3b9192b8f19 # v3.1.2
+      - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
+      - name: build
+        env:
+          CONTAINER_REPO: ${{ steps.run-info.outputs.container-repo }}
+        run: ./hack/publish.sh --sign
