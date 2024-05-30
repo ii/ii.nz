@@ -1,5 +1,5 @@
 FROM alpine:edge@sha256:f2d1645cd73c7e54584dc225da0b5229d19223412d719669ebda764f41396853 AS build
-RUN apk add --no-cache 'hugo=0.121.1-r0'
+RUN apk add --no-cache 'hugo=0.125.4-r1'
 COPY . /build
 WORKDIR /build
 RUN hugo
