@@ -1,0 +1,1 @@
+image: registry.gitlab.com/bobymcbobs/go-http-server:1.11.0 # {"$imagepolicy": "flux-system:registry-gitlab-com-bobymcbobs-go-http-server"}
