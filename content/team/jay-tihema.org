@@ -1,5 +1,5 @@
 #+title: Jay Tihema
 #+photo: /images/profiles/jay-tihema.jpg
-#+active: true
+#+active: false
 
 Jay is awesome!
